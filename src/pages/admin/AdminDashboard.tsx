@@ -4,13 +4,13 @@ import StatCard from "@/components/dashboard/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Users, 
-  Tv, 
-  FileText, 
-  Coins, 
-  Check, 
-  X, 
+import {
+  Users,
+  Tv,
+  FileText,
+  Coins,
+  Check,
+  X,
   Clock,
   AlertCircle,
   TrendingUp
@@ -48,154 +48,197 @@ const AdminDashboard = () => {
 
   return (
     <DashboardLayout isAdmin>
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold font-display">Admin Dashboard</h1>
-        <p className="text-muted-foreground">System overview and quick actions</p>
-      </div>
+      <div id="overview" className="space-y-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold font-display">Admin Dashboard</h1>
+          <p className="text-muted-foreground">System overview and quick actions</p>
+        </div>
 
-      {/* Stats Grid */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
-      >
-        {stats.map((stat, index) => (
+        {/* Stats Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          {stats.map((stat, index) => (
+            <motion.div
+              key={stat.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <StatCard {...stat} />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Main Content */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Pending Approvals */}
           <motion.div
-            key={stat.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            id="pending"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="scroll-mt-24"
           >
-            <StatCard {...stat} />
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-warning" />
+                  Pending Approvals
+                </CardTitle>
+                <Button variant="ghost" size="sm">View All</Button>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {pendingAds.map((ad) => (
+                    <div
+                      key={ad.id}
+                      className="flex items-center justify-between p-4 rounded-lg bg-secondary/30 border border-border/50"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                          <FileText className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-medium">{ad.name}</p>
+                          <p className="text-sm text-muted-foreground">{ad.client} · {ad.submitted}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="text-xs">
+                          {ad.type}
+                        </Badge>
+                        <Button variant="ghost" size="icon" className="text-success hover:text-success hover:bg-success/10">
+                          <Check className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </motion.div>
-        ))}
-      </motion.div>
 
-      {/* Main Content */}
-      <div className="grid lg:grid-cols-2 gap-8">
-        {/* Pending Approvals */}
+          {/* Recent Activity */}
+          <motion.div
+            id="logs"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="scroll-mt-24"
+          >
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <AlertCircle className="w-5 h-5 text-primary" />
+                  Recent Activity
+                </CardTitle>
+                <Button variant="ghost" size="sm">View Logs</Button>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {recentActivity.map((activity) => (
+                    <div key={activity.id} className="flex items-start gap-3">
+                      <div className={cn(
+                        "w-2 h-2 rounded-full mt-2 shrink-0",
+                        activity.type === "success" && "bg-success",
+                        activity.type === "info" && "bg-primary",
+                        activity.type === "warning" && "bg-warning",
+                        activity.type === "error" && "bg-destructive"
+                      )} />
+                      <div className="flex-1 min-w-0">
+                        <p className={cn("font-medium text-sm", activityTypeStyles[activity.type])}>
+                          {activity.action}
+                        </p>
+                        <p className="text-sm text-muted-foreground truncate">{activity.details}</p>
+                      </div>
+                      <span className="text-xs text-muted-foreground shrink-0">{activity.time}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+
+        {/* Quick Actions */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-8"
         >
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-warning" />
-                Pending Approvals
-              </CardTitle>
-              <Button variant="ghost" size="sm">View All</Button>
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {pendingAds.map((ad) => (
-                  <div 
-                    key={ad.id} 
-                    className="flex items-center justify-between p-4 rounded-lg bg-secondary/30 border border-border/50"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <FileText className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <p className="font-medium">{ad.name}</p>
-                        <p className="text-sm text-muted-foreground">{ad.client} · {ad.submitted}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="outline" className="text-xs">
-                        {ad.type}
-                      </Badge>
-                      <Button variant="ghost" size="icon" className="text-success hover:text-success hover:bg-success/10">
-                        <Check className="w-4 h-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10">
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Recent Activity */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 text-primary" />
-                Recent Activity
-              </CardTitle>
-              <Button variant="ghost" size="sm">View Logs</Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentActivity.map((activity) => (
-                  <div key={activity.id} className="flex items-start gap-3">
-                    <div className={cn(
-                      "w-2 h-2 rounded-full mt-2 shrink-0",
-                      activity.type === "success" && "bg-success",
-                      activity.type === "info" && "bg-primary",
-                      activity.type === "warning" && "bg-warning",
-                      activity.type === "error" && "bg-destructive"
-                    )} />
-                    <div className="flex-1 min-w-0">
-                      <p className={cn("font-medium text-sm", activityTypeStyles[activity.type])}>
-                        {activity.action}
-                      </p>
-                      <p className="text-sm text-muted-foreground truncate">{activity.details}</p>
-                    </div>
-                    <span className="text-xs text-muted-foreground shrink-0">{activity.time}</span>
-                  </div>
-                ))}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
+                  <Tv className="w-5 h-5" />
+                  <span>Push Ads to Screens</span>
+                </Button>
+                <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
+                  <Coins className="w-5 h-5" />
+                  <span>Manage Pricing</span>
+                </Button>
+                <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
+                  <Users className="w-5 h-5" />
+                  <span>View All Clients</span>
+                </Button>
+                <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
+                  <FileText className="w-5 h-5" />
+                  <span>System Logs</span>
+                </Button>
               </div>
             </CardContent>
           </Card>
         </motion.div>
       </div>
 
-      {/* Quick Actions */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.5 }}
-        className="mt-8"
-      >
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
-                <Tv className="w-5 h-5" />
-                <span>Push Ads to Screens</span>
-              </Button>
-              <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
-                <Coins className="w-5 h-5" />
-                <span>Manage Pricing</span>
-              </Button>
-              <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
-                <Users className="w-5 h-5" />
-                <span>View All Clients</span>
-              </Button>
-              <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
-                <FileText className="w-5 h-5" />
-                <span>System Logs</span>
-              </Button>
-            </div>
-          </CardContent>
+      <div className="my-12 border-t border-border/50" />
+
+      {/* Placeholders for other sections */}
+      <div id="ads" className="scroll-mt-24 min-h-[50vh]">
+        <h2 className="text-2xl font-bold font-display mb-4">All Ads</h2>
+        <Card className="h-64 flex items-center justify-center text-muted-foreground bg-secondary/10 border-dashed">
+          Ads Management Module
         </Card>
-      </motion.div>
+      </div>
+
+      <div className="my-12 border-t border-border/50" />
+
+      <div id="clients" className="scroll-mt-24 min-h-[50vh]">
+        <h2 className="text-2xl font-bold font-display mb-4">Clients</h2>
+        <Card className="h-64 flex items-center justify-center text-muted-foreground bg-secondary/10 border-dashed">
+          Client Management Module
+        </Card>
+      </div>
+
+      <div className="my-12 border-t border-border/50" />
+
+      <div id="pricing" className="scroll-mt-24 min-h-[50vh]">
+        <h2 className="text-2xl font-bold font-display mb-4">Token Pricing</h2>
+        <Card className="h-64 flex items-center justify-center text-muted-foreground bg-secondary/10 border-dashed">
+          Pricing Configuration Module
+        </Card>
+      </div>
+
+      <div className="my-12 border-t border-border/50" />
+
+      <div id="screens" className="scroll-mt-24 min-h-[50vh]">
+        <h2 className="text-2xl font-bold font-display mb-4">Screens</h2>
+        <Card className="h-64 flex items-center justify-center text-muted-foreground bg-secondary/10 border-dashed">
+          Screen Management Module
+        </Card>
+      </div>
     </DashboardLayout>
   );
 };

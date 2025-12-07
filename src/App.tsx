@@ -11,6 +11,7 @@ import UploadAdPage from "./pages/dashboard/UploadAdPage";
 import BuyTokensPage from "./pages/dashboard/BuyTokensPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import NotFound from "./pages/NotFound";
+import ScrollToHashElement from "./components/ScrollToHashElement";
 
 const queryClient = new QueryClient();
 
@@ -20,12 +21,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToHashElement />
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          
+
           {/* Client Dashboard Routes */}
           <Route path="/dashboard" element={<ClientDashboard />} />
           <Route path="/dashboard/upload" element={<UploadAdPage />} />
@@ -34,7 +36,7 @@ const App = () => (
           <Route path="/dashboard/map" element={<ClientDashboard />} />
           <Route path="/dashboard/transactions" element={<ClientDashboard />} />
           <Route path="/dashboard/ads" element={<ClientDashboard />} />
-          
+
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/pending" element={<AdminDashboard />} />
@@ -43,10 +45,10 @@ const App = () => (
           <Route path="/admin/pricing" element={<AdminDashboard />} />
           <Route path="/admin/screens" element={<AdminDashboard />} />
           <Route path="/admin/logs" element={<AdminDashboard />} />
-          
+
           {/* Settings */}
           <Route path="/settings" element={<ClientDashboard />} />
-          
+
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>

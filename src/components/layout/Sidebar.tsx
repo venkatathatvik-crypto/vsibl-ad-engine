@@ -22,29 +22,29 @@ interface SidebarProps {
 }
 
 const clientLinks = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
-  { icon: Upload, label: "Upload Ad", path: "/dashboard/upload" },
-  { icon: Calendar, label: "Schedule", path: "/dashboard/schedule" },
-  { icon: MapPin, label: "Live Map", path: "/dashboard/map" },
-  { icon: Coins, label: "Buy Tokens", path: "/dashboard/tokens" },
-  { icon: History, label: "Transactions", path: "/dashboard/transactions" },
-  { icon: FileText, label: "My Ads", path: "/dashboard/ads" },
+  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard#dashboard" },
+  { icon: Upload, label: "Upload Ad", path: "/dashboard#upload" },
+  { icon: Calendar, label: "Schedule", path: "/dashboard#schedule" },
+  { icon: MapPin, label: "Live Map", path: "/dashboard#map" },
+  { icon: Coins, label: "Buy Tokens", path: "/dashboard#tokens" },
+  { icon: History, label: "Transactions", path: "/dashboard#transactions" },
+  { icon: FileText, label: "My Ads", path: "/dashboard#ads" },
 ];
 
 const adminLinks = [
-  { icon: LayoutDashboard, label: "Overview", path: "/admin" },
-  { icon: FileText, label: "Pending Approvals", path: "/admin/pending" },
-  { icon: FileText, label: "All Ads", path: "/admin/ads" },
-  { icon: Coins, label: "Clients", path: "/admin/clients" },
-  { icon: Settings, label: "Token Pricing", path: "/admin/pricing" },
-  { icon: MapPin, label: "Screens", path: "/admin/screens" },
-  { icon: History, label: "System Logs", path: "/admin/logs" },
+  { icon: LayoutDashboard, label: "Overview", path: "/admin#overview" },
+  { icon: FileText, label: "Pending Approvals", path: "/admin#pending" },
+  { icon: FileText, label: "All Ads", path: "/admin#ads" },
+  { icon: Coins, label: "Clients", path: "/admin#clients" },
+  { icon: Settings, label: "Token Pricing", path: "/admin#pricing" },
+  { icon: MapPin, label: "Screens", path: "/admin#screens" },
+  { icon: History, label: "System Logs", path: "/admin#logs" },
 ];
 
 const Sidebar = ({ isAdmin = false }: SidebarProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
-  
+
   const links = isAdmin ? adminLinks : clientLinks;
 
   return (
@@ -58,11 +58,7 @@ const Sidebar = ({ isAdmin = false }: SidebarProps) => {
       <div className="p-6 border-b border-sidebar-border">
         <Link to="/" className="flex items-center">
           {collapsed ? (
-            <div className="grid grid-cols-2 gap-0.5">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="w-2.5 h-2.5 bg-foreground rounded-sm" />
-              ))}
-            </div>
+            <Logo size="sm" />
           ) : (
             <Logo size="md" />
           )}
@@ -72,7 +68,21 @@ const Sidebar = ({ isAdmin = false }: SidebarProps) => {
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         {links.map((link) => {
-          const isActive = location.pathname === link.path;
+          const isHashLink = link.path.includes("#");
+          const currentPath = location.pathname + location.hash;
+
+          // For hash links, match exact path+hash, or default to dashboard if hash is empty/dashboard
+          let isActive = false;
+          if (isHashLink) {
+            if (link.path.endsWith("#dashboard") && (currentPath === "/dashboard" || currentPath === "/dashboard#dashboard")) {
+              isActive = true;
+            } else {
+              isActive = currentPath === link.path;
+            }
+          } else {
+            isActive = location.pathname === link.path;
+          }
+
           return (
             <Link
               key={link.path}
