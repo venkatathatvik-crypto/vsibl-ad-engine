@@ -1,73 +1,141 @@
-# Welcome to your Lovable project
+# VSIBL Ad Engine
 
-## Project info
+**VSIBL - Bold. Urban. Interactive.**
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+A modern digital advertising platform for urban autorickshaw screens, enabling dynamic ad deployment with real-time tracking and token-based billing.
 
-## How can I edit this code?
+## 🚀 Features
 
-There are several ways of editing your application.
+### Client Dashboard
+- **Real-time Analytics**: Track active screens, impressions, and campaign performance
+- **Upload Ads**: Easy drag-and-drop ad creative upload with scheduling
+- **Token-based Billing**: Flexible pay-per-screen-time model
+- **Live Map**: Track ad deployment across urban areas in real-time
+- **Transaction History**: Monitor token usage and purchases
+- **Ad Management**: View and manage all active, pending, and expired campaigns
 
-**Use Lovable**
+### Admin Dashboard
+- **System Overview**: Monitor total clients, active screens, and revenue
+- **Ad Approvals**: Review and approve/reject pending ad submissions
+- **Client Management**: Oversee all registered clients
+- **Screen Management**: Track and manage all connected display screens
+- **Pricing Configuration**: Set and adjust token pricing
+- **System Logs**: View detailed activity logs and system events
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## 🎨 Design Features
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Doto Font**: Modern geometric typeface for headings (ExtraBold 800)
+- **Dark Theme**: Premium dark maroon color scheme (#4A0025)
+- **Smooth Animations**: Framer Motion for polished interactions
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Glass Morphism**: Modern UI with backdrop blur effects
+- **Scroll Navigation**: Sidebar buttons smoothly scroll to sections
 
-**Use your preferred IDE**
+## 🛠️ Tech Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS + Custom Design System
+- **UI Components**: shadcn/ui
+- **Animations**: Framer Motion
+- **Routing**: React Router v6
+- **State Management**: TanStack Query
+- **Icons**: Lucide React
+- **Fonts**: Google Fonts (Doto, Inter, Space Grotesk)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 📦 Installation
 
-Follow these steps:
+```bash
+# Clone the repository
+git clone https://github.com/venkatathatvik-crypto/vsibl-ad-engine.git
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Navigate to project directory
+cd vsibl-ad-engine
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Install dependencies
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 🎯 Usage
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Demo Credentials
 
-**Use GitHub Codespaces**
+**Client Login:**
+- Email: `demo@vsibl.com`
+- Password: any password
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+**Admin Login:**
+- Email: `admin@vsibl.com`
+- Password: any password
 
-## What technologies are used for this project?
+### Navigation
 
-This project is built with:
+The application features a collapsible sidebar with smooth scroll navigation:
+- Dashboard sections scroll smoothly when clicking sidebar links
+- All sections are accessible via hash anchors (e.g., `/dashboard#upload`)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🏗️ Project Structure
 
-## How can I deploy this project?
+```
+src/
+├── components/
+│   ├── dashboard/        # Dashboard-specific components
+│   ├── layout/          # Layout components (Sidebar, Navbar, Logo)
+│   └── ui/              # Reusable UI components (shadcn/ui)
+├── pages/
+│   ├── admin/           # Admin dashboard pages
+│   └── dashboard/       # Client dashboard pages
+├── hooks/               # Custom React hooks
+├── lib/                 # Utility functions
+├── assets/              # Images and static assets
+└── index.css            # Global styles and design tokens
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## 🎨 Design Tokens
 
-## Can I connect a custom domain to my Lovable project?
+### Colors
+- **Primary**: Deep Maroon `hsl(330 100% 15%)`
+- **Background**: Dark `hsl(300 8% 7%)`
+- **Foreground**: Light `hsl(0 0% 97%)`
 
-Yes, you can!
+### Typography
+- **Headings**: Doto (800 weight)
+- **Body**: Inter
+- **Display**: Space Grotesk (fallback)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 📱 Responsive Breakpoints
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- Mobile: `< 768px`
+- Tablet: `768px - 1024px`
+- Desktop: `> 1024px`
+
+## 🔧 Development
+
+```bash
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Type checking
+npx tsc --noEmit
+```
+
+## 📝 License
+
+This project is proprietary software developed for VSIBL.
+
+## 👥 Contact
+
+For questions or support, please contact the VSIBL team.
+
+---
+
+**Built with ❤️ by VSIBL Team**
