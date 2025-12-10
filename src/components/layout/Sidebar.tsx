@@ -13,6 +13,7 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
+  PieChart,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ interface SidebarProps {
 
 const clientLinks = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard#dashboard" },
+  { icon: PieChart, label: "Analytics", path: "/dashboard#analytics" },
   { icon: Upload, label: "Upload Ad", path: "/dashboard#upload" },
   { icon: Calendar, label: "Schedule", path: "/dashboard#schedule" },
   { icon: MapPin, label: "Live Map", path: "/dashboard#map" },

@@ -39,10 +39,10 @@ const LandingPage = () => {
         <div className="absolute inset-0">
           {/* Gradient glow */}
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-primary/20 rounded-full blur-[120px]" />
-          
+
           {/* Pixel grid pattern */}
           <div className="absolute inset-0 pixel-grid opacity-20" />
-          
+
           {/* Scattered pixels */}
           {[...Array(30)].map((_, i) => (
             <motion.div
@@ -77,22 +77,22 @@ const LandingPage = () => {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex justify-center mb-8"
+              className="flex justify-center -mb-28"
             >
-              <Logo size="lg" showTagline />
+              <Logo size="4xl" showTagline />
             </motion.div>
 
             {/* Headline */}
             <h1 className="text-5xl md:text-7xl font-bold font-display mb-6 leading-tight">
-              Advertise Where the{" "}
+              ADVERTISE WHERE THE{" "}
               <span className="relative">
-                <span className="relative z-10 text-foreground">City Moves</span>
+                <span className="relative z-10 text-foreground">CITY MOVES</span>
                 <span className="absolute bottom-2 left-0 right-0 h-3 bg-primary/50 -z-0" />
               </span>
             </h1>
 
             <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-              Deploy dynamic advertisements across urban autorickshaw screens. 
+              Deploy dynamic advertisements across urban autorickshaw screens.
               Track performance in real-time. Pay only for what you use.
             </p>
 

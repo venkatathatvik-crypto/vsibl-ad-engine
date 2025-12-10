@@ -4,7 +4,7 @@ import vsiblLogo from "@/assets/vsibl-logo-transparent.png";
 interface LogoProps {
   className?: string;
   showTagline?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 }
 
 const Logo = ({ className, showTagline = false, size = "md" }: LogoProps) => {
@@ -12,6 +12,10 @@ const Logo = ({ className, showTagline = false, size = "md" }: LogoProps) => {
     sm: "h-8",
     md: "h-10",
     lg: "h-16",
+    xl: "h-24",
+    "2xl": "h-40",
+    "3xl": "h-64",
+    "4xl": "h-96",
   };
 
   return (

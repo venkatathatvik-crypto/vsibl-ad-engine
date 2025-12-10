@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(CLIENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  campaigns Campaign[]
+}
+
+model Campaign {
+  id        String   @id @default(uuid())
+  name      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  status    String   @default("DRAFT") // DRAFT, OR ACTIVE, PAUSED, COMPLETED
+  budget    Decimal  @db.Decimal(10, 2)
+  startDate DateTime
+  endDate   DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ads       Ad[]
+}
+
+model Ad {
+  id         String   @id @default(uuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  name       String
+  contentUrl String?  // URL to image/video
+  type       String   // IMAGE, VIDEO, CAROUSEL
+  
+  impressions AdImpression[]
+  clicks      AdClick[]
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Analytics tables - Candidates for TimescaleDB Hypertables
+model AdImpression {
+  id        String   @id @default(uuid())
+  adId      String
+  ad        Ad       @relation(fields: [adId], references: [id])
+  timestamp DateTime @default(now())
+  cost      Decimal  @db.Decimal(10, 4) @default(0)
+  viewerId  String?  // Anonymous ID
+  userAgent String?
+  region    String?
+  
+  @@index([timestamp])
+  @@index([adId])
+}
+
+model AdClick {
+  id        String   @id @default(uuid())
+  adId      String
+  ad        Ad       @relation(fields: [adId], references: [id])
+  timestamp DateTime @default(now())
+  cost      Decimal  @db.Decimal(10, 4) @default(0)
+  viewerId  String?
+  userAgent String?
+  region    String?
+
+  @@index([timestamp])
+  @@index([adId])
+}

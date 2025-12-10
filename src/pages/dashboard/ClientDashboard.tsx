@@ -6,6 +6,7 @@ import AdsTable from "@/components/dashboard/AdsTable";
 import LiveMap from "@/components/dashboard/LiveMap";
 import UploadAdSection from "@/components/dashboard/UploadAdSection";
 import BuyTokensSection from "@/components/dashboard/BuyTokensSection";
+import AnalyticsSection from "@/components/dashboard/AnalyticsSection";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Tv, BarChart3, Coins, Upload, TrendingUp, Clock, Calendar } from "lucide-react";
@@ -57,7 +58,7 @@ const ClientDashboard = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold font-display">Dashboard</h1>
+            <h1 className="text-3xl font-bold font-display">DASHBOARD</h1>
             <p className="text-muted-foreground">Welcome back! Here's your advertising overview.</p>
           </div>
           <Button variant="hero" asChild>
@@ -120,6 +121,13 @@ const ClientDashboard = () => {
         >
           <AdsTable ads={recentAds} />
         </motion.div>
+      </div>
+
+      <div className="my-12 border-t border-border/50" />
+
+      {/* Analytics Section */}
+      <div id="analytics" className="scroll-mt-24 min-h-[50vh]">
+        <AnalyticsSection />
       </div>
 
       <div className="my-12 border-t border-border/50" />
