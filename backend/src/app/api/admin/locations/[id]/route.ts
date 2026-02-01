@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authorizeUser, createErrorResponse } from '@/lib/rbac';
 
@@ -15,7 +15,8 @@ export async function OPTIONS() {
     return NextResponse.json({}, { status: 200, headers: CORS_HEADERS });
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
     const authResult = await authorizeUser(req, 'ADMIN');
     if (!authResult || authResult === 'FORBIDDEN') {
         return createErrorResponse(authResult === 'FORBIDDEN' ? 'FORBIDDEN' : 'UNAUTHORIZED');
@@ -26,7 +27,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         const { name, locationString, tokensPerHour, status } = body;
 
         const location = await prisma.adLocation.update({
-            where: { id: params.id },
+            where: { id },
             data: {
                 name,
                 locationString,
@@ -42,7 +43,8 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
     const authResult = await authorizeUser(req, 'ADMIN');
     if (!authResult || authResult === 'FORBIDDEN') {
         return createErrorResponse(authResult === 'FORBIDDEN' ? 'FORBIDDEN' : 'UNAUTHORIZED');
@@ -50,7 +52,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
 
     try {
         await prisma.adLocation.delete({
-            where: { id: params.id }
+            where: { id }
         });
 
         return NextResponse.json({ message: 'Location deleted successfully' }, { status: 200, headers: CORS_HEADERS });
