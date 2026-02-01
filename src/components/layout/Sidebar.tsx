@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface SidebarProps {
   isAdmin?: boolean;
@@ -38,14 +39,15 @@ const adminLinks = [
   { icon: FileText, label: "Pending Approvals", path: "/admin#pending" },
   { icon: FileText, label: "All Ads", path: "/admin#ads" },
   { icon: Coins, label: "Clients", path: "/admin#clients" },
-  { icon: Settings, label: "Token Pricing", path: "/admin#pricing" },
-  { icon: MapPin, label: "Screens", path: "/admin#screens" },
+  { icon: Settings, label: "Token Pricing", path: "/admin/pricing" },
+  { icon: MapPin, label: "Screens", path: "/admin/locations" },
   { icon: History, label: "System Logs", path: "/admin#logs" },
 ];
 
 const Sidebar = ({ isAdmin = false }: SidebarProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+  const { logout } = useAuth();
 
   const links = isAdmin ? adminLinks : clientLinks;
 
@@ -116,17 +118,20 @@ const Sidebar = ({ isAdmin = false }: SidebarProps) => {
           <Settings className="w-5 h-5 shrink-0" />
           {!collapsed && <span>Settings</span>}
         </Link>
-        <Link
-          to="/login"
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            logout();
+          }}
           className={cn(
-            "nav-item text-destructive hover:text-destructive",
+            "nav-item text-destructive hover:text-destructive w-full",
             collapsed && "justify-center px-0"
           )}
           title={collapsed ? "Logout" : undefined}
         >
           <LogOut className="w-5 h-5 shrink-0" />
           {!collapsed && <span>Logout</span>}
-        </Link>
+        </button>
       </div>
 
       {/* Collapse Toggle */}

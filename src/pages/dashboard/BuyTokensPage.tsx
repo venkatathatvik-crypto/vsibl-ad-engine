@@ -5,38 +5,47 @@ import { Button } from "@/components/ui/button";
 import { Coins, Check, Star, Zap, Crown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { usePricingStore } from "@/store/usePricingStore";
+import { useEffect } from "react";
 
 const BuyTokensPage = () => {
   const { toast } = useToast();
+  const { activeConfig, fetchConfig } = usePricingStore();
+
+  useEffect(() => {
+    if (!activeConfig) fetchConfig();
+  }, [activeConfig, fetchConfig]);
+
+  const rate = activeConfig?.tokenUsdPrice || 0.04;
 
   const packages = [
     {
       id: "starter",
       name: "Starter",
       tokens: 1000,
-      price: 49,
+      price: Math.round(1000 * rate),
       description: "Perfect for testing the waters",
       icon: Coins,
-      features: ["1,000 tokens", "~2,000 screen minutes", "Basic analytics"],
+      features: ["1,000 tokens", "Dynamic pricing applied", "Basic analytics"],
     },
     {
       id: "growth",
       name: "Growth",
       tokens: 5000,
-      price: 199,
+      price: Math.round(5000 * rate),
       description: "Ideal for growing brands",
       icon: Zap,
       popular: true,
-      features: ["5,000 tokens", "~10,000 screen minutes", "Priority support", "Detailed analytics"],
+      features: ["5,000 tokens", "Priority playback", "Priority support", "Detailed analytics"],
     },
     {
       id: "enterprise",
       name: "Enterprise",
       tokens: 20000,
-      price: 699,
+      price: Math.round(20000 * rate),
       description: "For large-scale campaigns",
       icon: Crown,
-      features: ["20,000 tokens", "~40,000 screen minutes", "Dedicated manager", "Custom reporting", "API access"],
+      features: ["20,000 tokens", "Dedicated manager", "Custom reporting", "API access"],
     },
   ];
 
@@ -91,7 +100,7 @@ const BuyTokensPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card 
+              <Card
                 className={cn(
                   "relative h-full transition-all duration-300 hover:shadow-glow",
                   pkg.popular && "border-primary/50 shadow-glow"

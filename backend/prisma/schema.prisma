@@ -1,14 +1,16 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client"
-}
-
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "./generated/client"
+  previewFeatures = ["driverAdapters"]
+}
+
 
 enum Role {
   ADMIN
@@ -18,13 +20,34 @@ enum Role {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
-  password  String
   name      String?
   role      Role     @default(CLIENT)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-  campaigns Campaign[]
+
+  // Security & Identity
+  identities    AuthIdentity[]
+  tokenVersion  Int      @default(0) // Incremented to invalidate all sessions
+
+  campaigns    Campaign[]
+  wallet       Wallet?
+  transactions Transaction[]
+  refreshTokens RefreshToken[]
+}
+
+model AuthIdentity {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider    String   // "PASSWORD", "GOOGLE"
+  providerId  String?  // Unique ID from provider (e.g., googleId). For PASSWORD, this can be the email.
+  credential  String?  // Hashed password for PASSWORD provider. Null for others.
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([provider, providerId])
+  @@unique([userId, provider])
 }
 
 model Campaign {
@@ -32,7 +55,8 @@ model Campaign {
   name      String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
-  status    String   @default("DRAFT") // DRAFT, OR ACTIVE, PAUSED, COMPLETED
+  // Campaign lifecycle: DRAFT, PENDING_PAYMENT, PENDING_APPROVAL, CONFIRMED, REJECTED, EXPIRED
+  status    String   @default("DRAFT")
   budget    Decimal  @db.Decimal(10, 2)
   startDate DateTime
   endDate   DateTime?
@@ -40,6 +64,15 @@ model Campaign {
   updatedAt DateTime @updatedAt
 
   ads       Ad[]
+  transactions Transaction[]
+
+  // VSIBL dynamic pricing
+  pricingVersionId String?
+  pricingVersion   PricingVersion? @relation(fields: [pricingVersionId], references: [id])
+  pricingSnapshot  CampaignPricingSnapshot?
+
+  // Playback info
+  playbackPriority Int @default(1)
 }
 
 model Ad {
@@ -84,4 +117,155 @@ model AdClick {
 
   @@index([timestamp])
   @@index([adId])
+}
+
+// Pricing configuration for VSIBL, versioned and immutable once published
+model PricingConfig {
+  id              String   @id @default(uuid())
+  name            String
+  description     String?
+  activeVersionId String?  @unique
+  activeVersion   PricingVersion? @relation("ActiveVersion", fields: [activeVersionId], references: [id])
+  versions        PricingVersion[] @relation("ConfigVersions")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PricingVersion {
+  id              String   @id @default(uuid())
+  versionNumber   Int
+  pricingConfigId String
+  pricingConfig   PricingConfig @relation("ConfigVersions", fields: [pricingConfigId], references: [id])
+  basePrice       Decimal  @db.Decimal(10, 4)
+  tokenUsdPrice   Decimal  @db.Decimal(10, 4) @default(0.04)
+  status          String   @default("DRAFT") // DRAFT, PUBLISHED
+  
+  factors         PricingFactor[]
+  timeSlots       TimeSlot[]
+  
+  // Relations
+  activeConfig    PricingConfig? @relation("ActiveVersion")
+  campaigns       Campaign[]
+  snapshots       CampaignPricingSnapshot[]
+  
+  createdAt       DateTime @default(now())
+  publishedAt     DateTime?
+}
+
+model PricingFactor {
+  id               String   @id @default(uuid())
+  pricingVersionId String
+  pricingVersion   PricingVersion @relation(fields: [pricingVersionId], references: [id])
+  name             String   // e.g., "Screen Count", "Ad Format"
+  key              String   // e.g., "screen_count", "ad_format", "slot_priority"
+  enabled          Boolean  @default(true)
+  priority         Int      @default(1) // 1-10
+  type             String   // MULTIPLIER or ADDITIVE
+  value            Decimal  @db.Decimal(10, 4)
+  config           Json?    // Optional JSON config for complex factors
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model TimeSlot {
+  id               String   @id @default(uuid())
+  pricingVersionId String
+  pricingVersion   PricingVersion @relation(fields: [pricingVersionId], references: [id])
+  name             String
+  startTime        String   // HH:mm format
+  endTime          String   // HH:mm format
+  multiplier       Decimal  @db.Decimal(10, 4)
+  priority         Int      @default(1)
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model CampaignPricingSnapshot {
+  id               String   @id @default(uuid())
+  campaignId       String   @unique
+  campaign         Campaign @relation(fields: [campaignId], references: [id])
+  pricingVersionId String
+  pricingVersion   PricingVersion @relation(fields: [pricingVersionId], references: [id])
+  basePrice        Decimal  @db.Decimal(10, 4)
+  finalPrice       Decimal  @db.Decimal(18, 4)
+  breakdown        Json     // Full calculation breakdown JSON
+  
+  createdAt        DateTime @default(now())
+}
+
+// User wallet holds token balance
+model Wallet {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  balance   Decimal  @db.Decimal(18, 4) @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Token transactions: credits (purchases) and debits (campaign spends)
+model Transaction {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // CREDIT or DEBIT
+  amount    Decimal  @db.Decimal(18, 4)
+  description String?
+  campaignId String?
+  campaign   Campaign? @relation(fields: [campaignId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+// Playback schedule per screen per date
+model PlaybackSchedule {
+  id        String   @id @default(uuid())
+  screenId  String
+  date      DateTime
+  // JSON array of slots: [{ startTime, endTime, campaignId, creativeUrl, format, playbackPriority }]
+  slots     Json
+  lastGeneratedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([screenId, date])
+}
+
+model RefreshToken {
+  id          String   @id @default(uuid())
+  hashedToken String   @unique
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revoked     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  expiresAt   DateTime
+}
+
+model VerificationRequest {
+  id         String   @id @default(uuid())
+  email      String
+  code       String   // Hashed OTP
+  type       String   // "PASSWORD_RESET", "ADMIN_CREDENTIAL_CHANGE", "EMAIL_VERIFICATION"
+  attempts   Int      @default(0)
+  expiresAt  DateTime
+  verifiedAt DateTime?
+  createdAt  DateTime @default(now())
+
+  @@index([email])
+}
+
+model AdLocation {
+  id             String   @id @default(uuid())
+  name           String   @unique
+  locationString String   // e.g., "Chennai, Kamarajar Salai"
+  tokensPerHour  Int
+  status         String   @default("Available")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([status])
 }

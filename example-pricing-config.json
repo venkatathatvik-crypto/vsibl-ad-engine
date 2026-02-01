@@ -1,0 +1,46 @@
+{
+    "name": "Market Standard v1",
+    "basePrice": 10.0,
+    "factors": [
+        {
+            "name": "Slot Priority",
+            "key": "slot_priority",
+            "enabled": true,
+            "priority": 10,
+            "type": "MULTIPLIER",
+            "value": 1.5
+        },
+        {
+            "name": "Ad Format Premium",
+            "key": "ad_format",
+            "enabled": true,
+            "priority": 8,
+            "type": "MULTIPLIER",
+            "value": 1.2
+        },
+        {
+            "name": "Service Fee",
+            "key": "service_fee",
+            "enabled": true,
+            "priority": 1,
+            "type": "ADDITIVE",
+            "value": 2.5
+        }
+    ],
+    "timeSlots": [
+        {
+            "name": "Morning Rush",
+            "startTime": "07:00",
+            "endTime": "10:00",
+            "multiplier": 2.5,
+            "priority": 9
+        },
+        {
+            "name": "Evening Prime",
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "multiplier": 3.0,
+            "priority": 9
+        }
+    ]
+}

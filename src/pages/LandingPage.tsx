@@ -5,12 +5,15 @@ import Navbar from "@/components/layout/Navbar";
 import Logo from "@/components/layout/Logo";
 import { ArrowRight, Tv, MapPin, Coins, BarChart3 } from "lucide-react";
 
+import { useAuth } from "@/contexts/AuthContext";
+
 const LandingPage = () => {
+  const { isAuthenticated } = useAuth();
   const features = [
     {
       icon: Tv,
-      title: "Urban Ad Network",
-      description: "Deploy your ads across thousands of autorickshaw screens in major cities.",
+      title: "Multi-Environment Network",
+      description: "Choose between VSIBLE ROAD for urban mobility or VSIBLE SKY for premium high-altitude visibility.",
     },
     {
       icon: MapPin,
@@ -70,7 +73,7 @@ const LandingPage = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-5xl mx-auto text-center"
           >
             {/* Logo */}
             <motion.div
@@ -91,24 +94,32 @@ const LandingPage = () => {
               </span>
             </h1>
 
-            <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-              Deploy dynamic advertisements across urban autorickshaw screens.
-              Track performance in real-time. Pay only for what you use.
-            </p>
+
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="hero" size="xl" asChild>
-                <Link to="/signup">
-                  Start Advertising
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Link>
-              </Button>
-              <Button variant="outline" size="xl" asChild>
-                <Link to="/login">
-                  Access Dashboard
-                </Link>
-              </Button>
+              {!isAuthenticated ? (
+                <>
+                  <Button variant="hero" size="xl" asChild>
+                    <Link to="/signup">
+                      Start Advertising
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </Link>
+                  </Button>
+                  <Button variant="outline" size="xl" asChild>
+                    <Link to="/login">
+                      Access Dashboard
+                    </Link>
+                  </Button>
+                </>
+              ) : (
+                <Button variant="hero" size="xl" asChild>
+                  <Link to="/dashboard">
+                    Go to Dashboard
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Link>
+                </Button>
+              )}
             </div>
 
             {/* Stats */}

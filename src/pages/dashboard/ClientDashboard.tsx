@@ -1,75 +1,70 @@
 import { motion } from "framer-motion";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import StatCard from "@/components/dashboard/StatCard";
-import TokenWallet from "@/components/dashboard/TokenWallet";
-import AdsTable from "@/components/dashboard/AdsTable";
 import LiveMap from "@/components/dashboard/LiveMap";
-import UploadAdSection from "@/components/dashboard/UploadAdSection";
-import BuyTokensSection from "@/components/dashboard/BuyTokensSection";
-import AnalyticsSection from "@/components/dashboard/AnalyticsSection";
+import {
+  GoLiveUploadWidget,
+  TokenPurchaseWidget,
+  ScheduleAdsWidget,
+  HeatMapWidget,
+  DailyEngagementWidget,
+  CampaignLeadsWidget,
+  TransactionHistoryWidget
+} from "@/components/dashboard/DashboardWidgets";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { Tv, BarChart3, Coins, Upload, TrendingUp, Clock, Calendar } from "lucide-react";
+import { Tv, Coins, Upload, TrendingUp, MousePointer2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ClientDashboard = () => {
-  // Mock data
+  const navigate = useNavigate();
+  // Mock data for top buttons (already existing)
   const stats = [
+    {
+      title: "Get Tokens",
+      value: "12,450",
+      change: "Click to Top Up",
+      changeType: "positive" as const,
+      icon: Coins,
+      href: "#tokens"
+    },
     {
       title: "Active Screens",
       value: "1,247",
-      change: "+12% from last week",
+      change: "View Live Map",
       changeType: "positive" as const,
-      icon: Tv
-    },
-    {
-      title: "Total Impressions",
-      value: "2.4M",
-      change: "+8% from last week",
-      changeType: "positive" as const,
-      icon: BarChart3
+      icon: Tv,
+      href: "#map"
     },
     {
       title: "Active Ads",
       value: "8",
-      change: "3 pending approval",
+      change: "Manage Assets",
       changeType: "neutral" as const,
-      icon: TrendingUp
+      icon: TrendingUp,
+      href: "#ads"
     },
     {
-      title: "Avg. Duration",
-      value: "4.2h",
-      change: "per screen/day",
-      changeType: "neutral" as const,
-      icon: Clock
+      title: "Avg Interaction",
+      value: "12.4%",
+      change: "View Analytics",
+      changeType: "positive" as const,
+      icon: MousePointer2,
+      href: "#analytics"
     },
-  ];
-
-  const recentAds = [
-    { id: "1", name: "Summer Sale 2024", status: "active" as const, impressions: 245000, screens: 450, createdAt: "Dec 5, 2024" },
-    { id: "2", name: "Brand Awareness", status: "approved" as const, impressions: 0, screens: 0, createdAt: "Dec 4, 2024" },
-    { id: "3", name: "New Product Launch", status: "pending" as const, impressions: 0, screens: 0, createdAt: "Dec 4, 2024" },
-    { id: "4", name: "Holiday Special", status: "active" as const, impressions: 180000, screens: 320, createdAt: "Dec 3, 2024" },
-    { id: "5", name: "Flash Sale", status: "expired" as const, impressions: 520000, screens: 680, createdAt: "Nov 28, 2024" },
   ];
 
   return (
     <DashboardLayout>
-      <div id="dashboard" className="space-y-8">
+      <div className="space-y-8 pb-12">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold font-display">DASHBOARD</h1>
-            <p className="text-muted-foreground">Welcome back! Here's your advertising overview.</p>
+            <h1 className="text-3xl font-bold font-display tracking-tight">CLIENT DASHBOARD</h1>
+            <p className="text-muted-foreground">Strategic overview of your advertising ecosystem.</p>
           </div>
-          <Button variant="hero" asChild>
-            <a href="#upload">
-              <Upload className="w-4 h-4 mr-2" />
-              Upload New Ad
-            </a>
-          </Button>
         </div>
 
-        {/* Stats Grid */}
+        {/* Top 4 Buttons (Stat Cards) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -79,7 +74,7 @@ const ClientDashboard = () => {
           {stats.map((stat, index) => (
             <motion.div
               key={stat.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
@@ -88,90 +83,43 @@ const ClientDashboard = () => {
           ))}
         </motion.div>
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column - Token Wallet */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <TokenWallet available={12450} used={7550} total={20000} />
+        {/* MAIN SPLIT LAYOUT */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Row 1: Go Live & Token Purchase */}
+          <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <GoLiveUploadWidget />
+          </motion.div>
+          <motion.div id="tokens" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <TokenPurchaseWidget />
           </motion.div>
 
-          {/* Right Column - Map */}
-          <motion.div
-            id="map"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="lg:col-span-2 scroll-mt-24"
-          >
+          {/* Row 2: Schedule & Live Screens */}
+          <motion.div id="ads" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <ScheduleAdsWidget />
+          </motion.div>
+          <motion.div id="map" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <LiveMap />
           </motion.div>
+
+          {/* Row 3: Heat Map & Daily Engagement */}
+          <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <HeatMapWidget />
+          </motion.div>
+          <motion.div id="analytics" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <DailyEngagementWidget />
+          </motion.div>
         </div>
 
-        {/* Ads Table */}
+        {/* FULL WIDTH SECTIONS */}
         <motion.div
-          id="ads"
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="scroll-mt-24"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="space-y-8"
         >
-          <AdsTable ads={recentAds} />
+          <CampaignLeadsWidget />
+          <TransactionHistoryWidget />
         </motion.div>
-      </div>
-
-      <div className="my-12 border-t border-border/50" />
-
-      {/* Analytics Section */}
-      <div id="analytics" className="scroll-mt-24 min-h-[50vh]">
-        <AnalyticsSection />
-      </div>
-
-      <div className="my-12 border-t border-border/50" />
-
-      {/* Schedule Section */}
-      <div id="schedule" className="scroll-mt-24 min-h-[50vh]">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold font-display mb-6">Ad Schedule</h2>
-          <div className="rounded-xl border border-border/50 bg-card overflow-hidden">
-            <div className="p-8 text-center text-muted-foreground">
-              <Calendar className="w-12 h-12 mx-auto mb-4 opacity-20" />
-              <p>See ur scheduled Ads Here.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="my-12 border-t border-border/50" />
-
-      {/* Upload Section */}
-      <div id="upload" className="scroll-mt-24 min-h-[80vh]">
-        <UploadAdSection />
-      </div>
-
-      <div className="my-12 border-t border-border/50" />
-
-      {/* Tokens Section */}
-      <div id="tokens" className="scroll-mt-24 min-h-[80vh]">
-        <BuyTokensSection />
-      </div>
-
-      <div className="my-12 border-t border-border/50" />
-
-      {/* Transactions Section */}
-      <div id="transactions" className="scroll-mt-24 min-h-[50vh]">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold font-display mb-6">Transaction History</h2>
-          <div className="rounded-xl border border-border/50 bg-card overflow-hidden">
-            <div className="p-8 text-center text-muted-foreground">
-              <Coins className="w-12 h-12 mx-auto mb-4 opacity-20" />
-              <p>No transactions found for this period.</p>
-            </div>
-          </div>
-        </div>
       </div>
     </DashboardLayout>
   );

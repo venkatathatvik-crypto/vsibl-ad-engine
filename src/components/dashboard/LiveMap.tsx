@@ -8,11 +8,11 @@ interface LiveMapProps {
 const LiveMap = ({ className }: LiveMapProps) => {
   // Mock screen data
   const screens = [
-    { id: 1, lat: 12.9716, lng: 77.5946, battery: 85, lastSeen: "2 min ago", ad: "Brand Campaign" },
-    { id: 2, lat: 12.9815, lng: 77.6092, battery: 72, lastSeen: "5 min ago", ad: "Summer Sale" },
-    { id: 3, lat: 12.9656, lng: 77.5784, battery: 91, lastSeen: "1 min ago", ad: "Tech Launch" },
-    { id: 4, lat: 12.9789, lng: 77.5689, battery: 45, lastSeen: "8 min ago", ad: "Brand Campaign" },
-    { id: 5, lat: 12.9545, lng: 77.6012, battery: 68, lastSeen: "3 min ago", ad: "Summer Sale" },
+    { id: 1, lat: 13.0418, lng: 80.2850, battery: 85, lastSeen: "2 min ago", ad: "Pongal Special" },
+    { id: 2, lat: 13.0405, lng: 80.2337, battery: 72, lastSeen: "5 min ago", ad: "Chennai Silks" },
+    { id: 3, lat: 12.9171, lng: 80.2279, battery: 91, lastSeen: "1 min ago", ad: "Sathyam Cinemas" },
+    { id: 4, lat: 13.0102, lng: 80.2156, battery: 45, lastSeen: "8 min ago", ad: "Phoenix Promo" },
+    { id: 5, lat: 13.0827, lng: 80.2707, battery: 68, lastSeen: "3 min ago", ad: "Metro Launch" },
   ];
 
   return (
@@ -29,7 +29,7 @@ const LiveMap = ({ className }: LiveMapProps) => {
           <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary to-background">
             {/* Grid overlay */}
             <div className="absolute inset-0 pixel-grid opacity-30" />
-            
+
             {/* City streets simulation */}
             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 225">
               {/* Main roads */}
@@ -53,10 +53,10 @@ const LiveMap = ({ className }: LiveMapProps) => {
               >
                 {/* Pulse effect */}
                 <div className="absolute inset-0 w-4 h-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/30 animate-ping" />
-                
+
                 {/* Marker */}
                 <div className="relative w-4 h-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary border-2 border-foreground shadow-glow" />
-                
+
                 {/* Tooltip */}
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
                   <div className="bg-card border border-border rounded-lg p-3 shadow-xl min-w-[160px]">

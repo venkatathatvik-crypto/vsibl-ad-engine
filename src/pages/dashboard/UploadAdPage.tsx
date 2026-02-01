@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,9 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, Image, Video, X, Calendar, Clock } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Upload, Image, Video, X, Calendar, Clock, Calculator } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { usePricingStore } from "@/store/usePricingStore";
 
 const UploadAdPage = () => {
   const [dragActive, setDragActive] = useState(false);
@@ -22,8 +25,30 @@ const UploadAdPage = () => {
     startTime: "",
     endTime: "",
   });
+
+  const [pricingInput, setPricingInput] = useState({
+    screenCount: 1,
+    impressionsPerDay: 1000,
+    totalDays: 7,
+    slotPriority: 'NORMAL' as 'NORMAL' | 'HIGH' | 'PREMIUM',
+    adFormat: 'IMAGE' as 'IMAGE' | 'GIF' | 'MP4' | 'WEBM',
+    timeSlots: []
+  });
+
+  const [calculatePriceResult, setCalculatePriceResult] = useState<any>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { calculatePrice } = usePricingStore();
+
+  useEffect(() => {
+    const updatePrice = async () => {
+      const result = await calculatePrice(pricingInput);
+      setCalculatePriceResult(result);
+    };
+    updatePrice();
+  }, [pricingInput, calculatePrice]);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -39,7 +64,7 @@ const UploadAdPage = () => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFile(e.dataTransfer.files[0]);
     }
@@ -57,7 +82,7 @@ const UploadAdPage = () => {
     }
 
     setFile(selectedFile);
-    
+
     if (selectedFile.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onload = (e) => setPreview(e.target?.result as string);
@@ -67,9 +92,9 @@ const UploadAdPage = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!file) {
       toast({
         title: "No file selected",
@@ -79,12 +104,52 @@ const UploadAdPage = () => {
       return;
     }
 
-    toast({
-      title: "Ad submitted for review",
-      description: "Your ad is now pending approval. We'll notify you once it's approved.",
-    });
-    
-    navigate("/dashboard/ads");
+    if (!calculatePriceResult) {
+      toast({
+        title: "Pricing Error",
+        description: "Could not calculate campaign cost. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Mock userId for now - in reality, get from Auth Context
+      const userId = "temp-user-id";
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/campaigns/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          name: formData.name,
+          startDate: formData.startDate,
+          endDate: formData.endDate,
+          pricingInput
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to create campaign');
+
+      const campaign = await response.json();
+
+      toast({
+        title: "Campaign Created & Price Locked",
+        description: `Your campaign "${campaign.name}" has been submitted for review.`,
+      });
+
+      navigate("/dashboard/ads");
+    } catch (err) {
+      toast({
+        title: "Creation failed",
+        description: "There was an error creating your campaign. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -115,11 +180,10 @@ const UploadAdPage = () => {
               </CardHeader>
               <CardContent>
                 <div
-                  className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 ${
-                    dragActive
-                      ? "border-primary bg-primary/5"
-                      : "border-border hover:border-primary/50"
-                  }`}
+                  className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 ${dragActive
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/50"
+                    }`}
                   onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
                   onDragOver={handleDrag}
@@ -288,13 +352,94 @@ const UploadAdPage = () => {
               </CardContent>
             </Card>
 
+            {/* Pricing Details */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calculator className="w-5 h-5 text-[#4a012f]" />
+                  Campaign Pricing & Allocation
+                </CardTitle>
+                <CardDescription>
+                  Configure your ad reach and priority. Price updates in real-time.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid sm:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Slot Priority</Label>
+                      <select
+                        className="w-full p-2 border rounded-md text-sm"
+                        value={pricingInput.slotPriority}
+                        onChange={(e) => setPricingInput({ ...pricingInput, slotPriority: e.target.value as any })}
+                      >
+                        <option value="NORMAL">Normal Priority (Standard Rate)</option>
+                        <option value="HIGH">High Priority (1.5x Multiplier)</option>
+                        <option value="PREMIUM">Premium Priority (2x Multiplier)</option>
+                      </select>
+                      <p className="text-xs text-muted-foreground">High priority ads get played first if conflicts exist.</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Screen Count ({pricingInput.screenCount})</Label>
+                      <Slider
+                        value={[pricingInput.screenCount]}
+                        min={1}
+                        max={20}
+                        step={1}
+                        onValueChange={([val]) => setPricingInput({ ...pricingInput, screenCount: val })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Impressions Per Day ({pricingInput.impressionsPerDay})</Label>
+                      <Slider
+                        value={[pricingInput.impressionsPerDay]}
+                        min={100}
+                        max={5000}
+                        step={100}
+                        onValueChange={([val]) => setPricingInput({ ...pricingInput, impressionsPerDay: val })}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div className="text-center mb-4">
+                      <p className="text-sm text-slate-500 uppercase font-semibold">Estimated Cost</p>
+                      <h2 className="text-4xl font-bold text-[#4a012f] tabular-nums">
+                        {calculatePriceResult?.finalPrice || 0} <span className="text-lg font-normal">Tokens</span>
+                      </h2>
+                    </div>
+
+                    <div className="space-y-2 text-xs">
+                      <p className="font-bold border-b pb-1 mb-2">Price Breakdown</p>
+                      <ScrollArea className="h-40">
+                        {calculatePriceResult?.breakdown.map((step: any, i: number) => (
+                          <div key={i} className="flex justify-between py-1 border-b border-dashed">
+                            <span className="text-slate-600">{step.factor}</span>
+                            <span className="font-mono">{step.change >= 0 ? '+' : ''}{step.change.toFixed(2)}</span>
+                          </div>
+                        ))}
+                      </ScrollArea>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Submit */}
             <div className="flex justify-end gap-4">
               <Button type="button" variant="outline" onClick={() => navigate(-1)}>
                 Cancel
               </Button>
-              <Button type="submit" variant="hero" size="lg">
-                Submit for Review
+              <Button
+                type="submit"
+                variant="hero"
+                size="lg"
+                className="bg-[#4a012f] hover:bg-[#3a0125] text-white"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Processing..." : "Confirm & Pay"}
               </Button>
             </div>
           </form>

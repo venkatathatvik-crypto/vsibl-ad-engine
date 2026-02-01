@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import StatCard from "@/components/dashboard/StatCard";
@@ -13,30 +14,53 @@ import {
   X,
   Clock,
   AlertCircle,
-  TrendingUp
+  TrendingUp,
+  Lock,
+  MapPin,
+  Loader2
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const token = localStorage.getItem('auth_token');
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/admin/dashboard`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (response.ok) {
+          const result = await response.json();
+          setData(result);
+        }
+      } catch (error) {
+        console.error("Error fetching dashboard stats:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStats();
+  }, []);
+
   const stats = [
-    { title: "Total Clients", value: "342", change: "+18 this month", changeType: "positive" as const, icon: Users },
-    { title: "Active Screens", value: "10,847", change: "98.2% uptime", changeType: "positive" as const, icon: Tv },
-    { title: "Pending Ads", value: "23", change: "Awaiting approval", changeType: "neutral" as const, icon: Clock },
-    { title: "Revenue (MTD)", value: "$48.2K", change: "+22% vs last month", changeType: "positive" as const, icon: TrendingUp },
+    { title: "Total Clients", value: data?.stats?.totalClients || "...", change: "+2 this week", changeType: "positive" as const, icon: Users },
+    { title: "Active Screens", value: data?.stats?.activeScreens || "...", change: "Live Network", changeType: "positive" as const, icon: Tv },
+    { title: "Pending Ads", value: data?.stats?.pendingApprovals || "...", change: "Awaiting review", changeType: "neutral" as const, icon: Clock },
+    { title: "Revenue (Tokens)", value: data?.stats?.revenue?.toLocaleString() || "0", change: "Total Volume", changeType: "positive" as const, icon: TrendingUp },
   ];
 
   const pendingAds = [
     { id: "1", name: "Black Friday Sale", client: "RetailCo", submitted: "2 hours ago", type: "image" },
     { id: "2", name: "New Year Campaign", client: "TechStart", submitted: "5 hours ago", type: "video" },
-    { id: "3", name: "Product Launch", client: "FoodBrand", submitted: "1 day ago", type: "image" },
   ];
 
-  const recentActivity = [
-    { id: "1", action: "Ad approved", details: "Holiday Promo by RetailMax", time: "10 min ago", type: "success" },
-    { id: "2", action: "New client signup", details: "TechCorp Inc.", time: "30 min ago", type: "info" },
-    { id: "3", action: "Screen offline", details: "Device #1842 in Zone 4", time: "45 min ago", type: "warning" },
-    { id: "4", action: "Tokens purchased", details: "5,000 tokens by StartupXYZ", time: "1 hour ago", type: "success" },
-    { id: "5", action: "Ad rejected", details: "Invalid content from NewBrand", time: "2 hours ago", type: "error" },
+  const recentActivity = data?.recentActivity || [
+    { id: "1", action: "System Live", details: "Dashboard initialized", time: "Just now", type: "success" },
   ];
 
   const activityTypeStyles = {
@@ -185,17 +209,34 @@ const AdminDashboard = () => {
                   <Tv className="w-5 h-5" />
                   <span>Push Ads to Screens</span>
                 </Button>
-                <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
+                <Button
+                  variant="outline"
+                  className="h-auto py-4 flex flex-col gap-2"
+                  onClick={() => navigate('/admin/pricing')}
+                >
                   <Coins className="w-5 h-5" />
                   <span>Manage Pricing</span>
                 </Button>
-                <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
-                  <Users className="w-5 h-5" />
-                  <span>View All Clients</span>
+                <Button
+                  variant="outline"
+                  className="h-auto py-4 flex flex-col gap-2"
+                  onClick={() => navigate('/admin/locations')}
+                >
+                  <MapPin className="w-5 h-5" />
+                  <span>Manage Locations</span>
                 </Button>
-                <Button variant="outline" className="h-auto py-4 flex flex-col gap-2">
+                <Button variant="outline" className="h-auto py-4 flex flex-col gap-2 border-primary/20 hover:border-primary">
                   <FileText className="w-5 h-5" />
                   <span>System Logs</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="h-auto py-4 flex flex-col gap-2 bg-amber-50/50 border-amber-200 hover:bg-amber-50"
+                  onClick={() => navigate('/admin/login?reset=true')}
+                >
+                  <Lock className="w-5 h-5 text-amber-600" />
+                  <span className="text-amber-900">Master Key & Security</span>
+                  <span className="text-[10px] text-amber-600">Requires Email Verification</span>
                 </Button>
               </div>
             </CardContent>
