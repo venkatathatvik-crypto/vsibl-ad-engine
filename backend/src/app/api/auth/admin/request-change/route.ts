@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { sendVerificationEmail } from '@/lib/mail';
+import { sendMail } from '@/lib/mail';
 import crypto from 'crypto';
 
 const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:5173';
@@ -48,7 +48,13 @@ export async function POST(req: Request) {
         });
 
         // 4. Send email
-        await sendVerificationEmail(email, token);
+        // 4. Send email
+        await sendMail({
+            to: email,
+            subject: 'VSIBL Security: Verification Code',
+            html: `Your verification code is: <strong>${token}</strong>`,
+            text: `Your verification code is: ${token}`
+        });
 
         return NextResponse.json({ message: 'Verification code sent to existing admin email' }, { status: 200, headers: CORS_HEADERS });
 

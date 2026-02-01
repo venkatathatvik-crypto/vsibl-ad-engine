@@ -29,7 +29,10 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}): P
         (headers as any)['Authorization'] = `Bearer ${accessToken}`;
     }
 
-    const response = await fetch(`${API_URL}${endpoint}`, {
+    const fullUrl = `${API_URL}${endpoint}`;
+    console.log(`[API Request] ${options.method || 'GET'} ${fullUrl}`);
+
+    const response = await fetch(fullUrl, {
         ...options,
         headers,
     });

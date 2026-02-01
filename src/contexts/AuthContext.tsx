@@ -88,9 +88,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const signInWithGoogle = async (requiredRole?: 'ADMIN' | 'CLIENT') => {
         try {
+            console.log('[Auth] Initiating Google Sign-In...');
             const result = await signInWithPopup(auth, googleProvider);
+            console.log('[Auth] Google Popup successful, getting ID token...');
             const idToken = await result.user.getIdToken();
 
+            console.log('[Auth] Verifying token with backend...');
             const data = await apiRequest('/google', {
                 method: 'POST',
                 body: JSON.stringify({ idToken }),
@@ -103,7 +106,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setSession(data.user, data.token, data.refreshToken);
             toast.success('Signed in with Google');
         } catch (error: any) {
-            console.error('Google Sign-In failed', error);
+            console.error('Google Sign-In Error Details:', error);
+
+            let message = error.message || 'Google Sign-In failed';
+
+            if (error.code === 'auth/unauthorized-domain') {
+                message = 'Domain not authorized. Add this URL to Firebase Console > Authentication > Settings > Authorized domains.';
+            } else if (error.code === 'auth/popup-closed-by-user') {
+                message = 'Sign-in popup was closed before completion.';
+            } else if (error.status === 401 || error.status === 403) {
+                message = 'Backend verification failed. Check FIREBASE_PRIVATE_KEY in Vercel.';
+            } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                message = 'Cannot reach backend. Check VITE_API_URL in Vercel.';
+            }
+
+            toast.error(message);
             throw error;
         }
     };

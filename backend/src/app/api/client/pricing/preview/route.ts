@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { verifyToken } from '@/lib/auth';
+import { verifyAccessToken } from '@/lib/auth';
 import { computePricing, PricingConfig, PricingInput } from '@/lib/pricingEngine';
 import { Role } from '@prisma/client';
 
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const decoded = verifyToken(token) as { role?: Role; userId?: string } | null;
+    const decoded = verifyAccessToken(token) as { role?: Role; userId?: string } | null;
     if (!decoded || decoded.role !== 'CLIENT') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }

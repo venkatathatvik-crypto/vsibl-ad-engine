@@ -133,13 +133,20 @@ model PricingConfig {
 
 model PricingVersion {
   id              String   @id @default(uuid())
-  versionNumber   Int
+  version         Int      @unique @map("versionNumber")
   pricingConfigId String
   pricingConfig   PricingConfig @relation("ConfigVersions", fields: [pricingConfigId], references: [id])
   basePrice       Decimal  @db.Decimal(10, 4)
   tokenUsdPrice   Decimal  @db.Decimal(10, 4) @default(0.04)
   status          String   @default("DRAFT") // DRAFT, PUBLISHED
   
+  // JSON Blobs for engine config (Deterministic snapshot)
+  screenSlabs       Json     @default("[]")
+  timeSlotsRules    Json     @default("[]")
+  formatMultipliers Json     @default("[]")
+  durationSlabs     Json     @default("[]")
+  factorPriorities  Json     @default("[]")
+
   factors         PricingFactor[]
   timeSlots       TimeSlot[]
   
