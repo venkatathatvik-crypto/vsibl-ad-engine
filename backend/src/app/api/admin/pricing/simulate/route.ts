@@ -4,6 +4,7 @@ import { verifyAccessToken } from '@/lib/auth';
 import { computePricing, PricingConfig, PricingInput, FactorKey } from '@/lib/pricingEngine';
 import { Role } from '@/lib/prisma';
 
+// Trigger build with new imports
 export async function POST(req: Request) {
   try {
     const authHeader = req.headers.get('authorization');
