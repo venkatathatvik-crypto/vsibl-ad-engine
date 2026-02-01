@@ -47,7 +47,7 @@ export async function POST(req: Request) {
                 basePrice: Number(basePrice) || 10,
                 tokenUsdPrice: Number(tokenUsdPrice) || 0.04,
                 status: 'DRAFT',
-                factors: {
+                factorEntries: {
                     create: (factors || []).map((f: any) => ({
                         name: String(f.name),
                         key: String(f.key),
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
                         config: f.config || {}
                     }))
                 },
-                timeSlots: {
+                timeSlotEntries: {
                     create: (timeSlots || []).map((ts: any) => ({
                         name: String(ts.name),
                         startTime: String(ts.startTime),
@@ -69,8 +69,8 @@ export async function POST(req: Request) {
                 }
             },
             include: {
-                factors: true,
-                timeSlots: true
+                factorEntries: true,
+                timeSlotEntries: true
             }
         });
 

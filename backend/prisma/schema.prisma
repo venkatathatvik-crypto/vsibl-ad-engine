@@ -142,13 +142,13 @@ model PricingVersion {
   
   // JSON Blobs for engine config (Deterministic snapshot)
   screenSlabs       Json     @default("[]")
-  timeSlotsRules    Json     @default("[]")
+  timeSlots         Json     @default("[]") // Renamed from timeSlotsRules to match engine
   formatMultipliers Json     @default("[]")
   durationSlabs     Json     @default("[]")
   factorPriorities  Json     @default("[]")
 
-  factors         PricingFactor[]
-  timeSlots       TimeSlot[]
+  factorEntries   PricingFactor[] // Renamed from factors
+  timeSlotEntries TimeSlot[]      // Renamed from timeSlots
   
   // Relations
   activeConfig    PricingConfig? @relation("ActiveVersion")

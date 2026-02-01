@@ -28,7 +28,7 @@ async function main() {
             basePrice: 100, // 100 tokens base
             status: 'PUBLISHED',
             publishedAt: new Date(),
-            factors: {
+            factorEntries: {
                 create: [
                     { name: 'Screen Count', key: 'screen_count', type: 'MULTIPLIER', value: 1.0, priority: 1, enabled: true },
                     { name: 'Ad Format: Video', key: 'format_video', type: 'MULTIPLIER', value: 1.5, priority: 2, enabled: true },
@@ -36,7 +36,7 @@ async function main() {
                     { name: 'Slot Priority: Premium', key: 'priority_premium', type: 'MULTIPLIER', value: 2.0, priority: 4, enabled: true }
                 ]
             },
-            timeSlots: {
+            timeSlotEntries: {
                 create: [
                     { name: 'Morning Peak', startTime: '08:00', endTime: '11:00', multiplier: 1.2, priority: 1 },
                     { name: 'Evening Peak', startTime: '17:00', endTime: '21:00', multiplier: 1.5, priority: 2 },

@@ -49,7 +49,7 @@ export async function POST(req: Request) {
                 tokenUsdPrice: Number(tokenUsdPrice) || 0.04,
                 status: 'PUBLISHED',
                 publishedAt: new Date(),
-                factors: {
+                factorEntries: {
                     create: factors.map((f: any) => ({
                         name: String(f.name),
                         key: String(f.key),
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
                         config: f.config || {}
                     }))
                 },
-                timeSlots: {
+                timeSlotEntries: {
                     create: timeSlots.map((ts: any) => ({
                         name: String(ts.name),
                         startTime: String(ts.startTime),

@@ -9,8 +9,8 @@ export class PricingSnapshotManager {
             include: {
                 activeVersion: {
                     include: {
-                        factors: true,
-                        timeSlots: true
+                        factorEntries: true,
+                        timeSlotEntries: true
                     }
                 }
             }
@@ -27,7 +27,7 @@ export class PricingSnapshotManager {
             version: version.version,
             basePrice: Number(version.basePrice),
             tokenUsdPrice: Number(version.tokenUsdPrice),
-            factors: version.factors.map(f => ({
+            factors: version.factorEntries.map(f => ({
                 id: f.id,
                 name: f.name,
                 key: f.key,
@@ -37,7 +37,7 @@ export class PricingSnapshotManager {
                 value: Number(f.value),
                 config: f.config
             })),
-            timeSlots: version.timeSlots.map(ts => ({
+            timeSlots: version.timeSlotEntries.map(ts => ({
                 id: ts.id,
                 name: ts.name,
                 startTime: ts.startTime,
