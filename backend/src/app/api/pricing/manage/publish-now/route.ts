@@ -33,18 +33,18 @@ export async function POST(req: Request) {
             });
         }
 
-        // 2. Determine new version number
+        // 2. Determine new version
         const lastVersion = await prisma.pricingVersion.findFirst({
             where: { pricingConfigId: config.id },
-            orderBy: { versionNumber: 'desc' }
+            orderBy: { version: 'desc' }
         });
-        const newVersionNumber = (lastVersion?.versionNumber || 0) + 1;
+        const newVersionNumber = (lastVersion?.version || 0) + 1;
 
         // 3. Create PricingVersion and set as PUBLISHED immediately
         const newVersion = await prisma.pricingVersion.create({
             data: {
                 pricingConfigId: config.id,
-                versionNumber: newVersionNumber,
+                version: newVersionNumber,
                 basePrice: Number(basePrice) || 10,
                 tokenUsdPrice: Number(tokenUsdPrice) || 0.04,
                 status: 'PUBLISHED',

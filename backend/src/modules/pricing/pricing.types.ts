@@ -22,7 +22,7 @@ export interface TimeSlotConfig {
 
 export interface PricingVersionConfig {
     id: string;
-    versionNumber: number;
+    version: number;
     basePrice: number;
     tokenUsdPrice?: number;
     factors: PricingFactorConfig[];

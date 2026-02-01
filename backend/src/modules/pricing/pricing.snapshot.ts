@@ -24,7 +24,7 @@ export class PricingSnapshotManager {
 
         return {
             id: version.id,
-            versionNumber: version.versionNumber,
+            version: version.version,
             basePrice: Number(version.basePrice),
             tokenUsdPrice: Number(version.tokenUsdPrice),
             factors: version.factors.map(f => ({

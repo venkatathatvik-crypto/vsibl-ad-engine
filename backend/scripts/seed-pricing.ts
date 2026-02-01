@@ -23,7 +23,7 @@ async function main() {
     // 2. Create an initial Version
     const version = await prisma.pricingVersion.create({
         data: {
-            versionNumber: 1,
+            version: 1,
             pricingConfigId: config.id,
             basePrice: 100, // 100 tokens base
             status: 'PUBLISHED',
