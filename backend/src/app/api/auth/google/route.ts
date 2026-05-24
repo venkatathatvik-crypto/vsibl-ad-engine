@@ -3,7 +3,7 @@ import { firebaseAdmin } from '@/lib/firebase-admin';
 import prisma from '@/lib/prisma';
 import { generateAccessToken, generateRefreshToken } from '@/lib/auth';
 
-const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:8080';
+const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://vsibl-ad-engine-qf4k.vercel.app';
 
 function getCorsHeaders(req: Request) {
     const origin = req.headers.get('origin') || allowedOrigin;

@@ -4,7 +4,7 @@ import { PricingSnapshotManager } from '@/modules/pricing/pricing.snapshot';
 import { PricingEngine } from '@/modules/pricing/pricing.engine';
 import { PricingValidator } from '@/modules/pricing/pricing.validator';
 
-const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:8081';
+const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://vsibl-ad-engine-qf4k.vercel.app';
 
 function getCorsHeaders(req: Request) {
     const origin = req.headers.get('origin') || allowedOrigin;

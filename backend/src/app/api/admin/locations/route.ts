@@ -5,7 +5,7 @@ import { authorizeUser, createErrorResponse } from '@/lib/rbac';
 export const runtime = "nodejs";
 
 const CORS_HEADERS = {
-    'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || 'http://localhost:5173',
+    'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || 'https://vsibl-ad-engine-qf4k.vercel.app',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };

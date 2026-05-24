@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 
 
 const CORS_HEADERS = {
-    'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || 'http://localhost:5173',
+    'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || 'https://vsibl-ad-engine-qf4k.vercel.app',
     'Access-Control-Allow-Methods': 'GET, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };

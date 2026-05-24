@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 import { sendMail, generateOTP } from '@/lib/mail';
 import { hashPassword } from '@/lib/auth'; // Using hashPassword for OTP storage too
 
-const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:8080';
+const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://vsibl-ad-engine-qf4k.vercel.app';
 const CORS_HEADERS = {
     'Access-Control-Allow-Origin': allowedOrigin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',

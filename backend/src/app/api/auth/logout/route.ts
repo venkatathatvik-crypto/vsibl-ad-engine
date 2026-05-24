@@ -4,7 +4,7 @@ import { hashToken } from '@/lib/auth';
 
 export const runtime = "nodejs";
 
-const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:5173';
+const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://vsibl-ad-engine-qf4k.vercel.app';
 
 const CORS_HEADERS = {
     'Access-Control-Allow-Origin': allowedOrigin,

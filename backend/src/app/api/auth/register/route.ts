@@ -4,7 +4,7 @@ import { hashPassword, generateAccessToken, generateRefreshToken } from '@/lib/a
 
 export const runtime = "nodejs";
 
-const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:8081';
+const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://vsibl-ad-engine-qf4k.vercel.app';
 
 function getCorsHeaders(req: Request) {
     const origin = req.headers.get('origin') || allowedOrigin;
