@@ -115,6 +115,17 @@ const UploadAdPage = () => {
 
     setIsSubmitting(true);
 
+    const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+    if (isDemoMode) {
+      toast({
+        title: "Campaign Created & Price Locked (Demo Mode)",
+        description: `Your campaign "${formData.name}" has been submitted for review.`,
+      });
+      setIsSubmitting(false);
+      navigate("/dashboard");
+      return;
+    }
+
     try {
       // Mock userId for now - in reality, get from Auth Context
       const userId = "temp-user-id";

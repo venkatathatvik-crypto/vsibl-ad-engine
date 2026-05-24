@@ -89,6 +89,14 @@ const AdminLoginPage = () => {
                     </div>
                     <CardTitle className="text-3xl font-display font-black tracking-tight text-white mb-1">VSIBL ADMIN</CardTitle>
                     <CardDescription className="text-muted-foreground font-medium">System Configuration Gateway</CardDescription>
+                    {import.meta.env.VITE_DEMO_MODE === 'true' && (
+                        <div className="mt-3 flex justify-center">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400 uppercase tracking-wider animate-pulse">
+                                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                                Demo Mode Active (No Password Required)
+                            </span>
+                        </div>
+                    )}
                 </CardHeader>
                 <CardContent className="pt-6">
                     {!showReset ? (

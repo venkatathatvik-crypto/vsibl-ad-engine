@@ -29,6 +29,26 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchStats = async () => {
+      const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+      if (isDemoMode) {
+        setData({
+          stats: {
+            totalClients: 12,
+            activeScreens: 8,
+            pendingApprovals: 3,
+            revenue: 15400
+          },
+          recentActivity: [
+            { id: "1", action: "System Live", details: "All nodes operational (Demo Mode)", time: "Now", type: "success" },
+            { id: "2", action: "Database Sync", details: "Seeds verified in-memory", time: "5 min ago", type: "info" },
+            { id: "3", action: "Token Contract Active", details: "VSIBL Token tracker running", time: "2 hours ago", type: "success" },
+            { id: "4", action: "Screen Added", details: "Marina Front Billboard created", time: "3 hours ago", type: "info" }
+          ]
+        });
+        setLoading(false);
+        return;
+      }
+
       try {
         const token = localStorage.getItem('auth_token');
         const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/admin/dashboard`, {

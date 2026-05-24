@@ -45,6 +45,13 @@ const PricingManager = () => {
 
     const handleSave = async () => {
         setIsSaving(true);
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            toast.success("Pricing Version DRAFT created successfully (Demo Mode)");
+            setIsSaving(false);
+            return;
+        }
+
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/pricing/manage`, {
                 method: 'POST',
@@ -64,6 +71,13 @@ const PricingManager = () => {
 
     const handlePublishLive = async () => {
         setIsSaving(true);
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            toast.success("SUCCESS: Pricing version is now LIVE for all clients. (Demo Mode)");
+            setIsSaving(false);
+            return;
+        }
+
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/pricing/manage/publish-now`, {
                 method: 'POST',
@@ -82,6 +96,12 @@ const PricingManager = () => {
     };
 
     const handlePublish = async (versionId: string) => {
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            toast.success("Pricing Version Published & Active (Demo Mode)");
+            return;
+        }
+
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/pricing/manage/publish`, {
                 method: 'POST',
@@ -97,6 +117,32 @@ const PricingManager = () => {
     };
 
     const runSimulation = async () => {
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            const base = 10;
+            const formatMultiplier = simulationInput.adFormat === 'VIDEO' || simulationInput.adFormat === 'MP4' ? 1.5 : 1.0;
+            const priorityMultiplier = simulationInput.slotPriority === 'HIGH' ? 1.5 : simulationInput.slotPriority === 'PREMIUM' ? 2.0 : 1.0;
+            const days = simulationInput.totalDays || 7;
+            const screens = simulationInput.screenCount || 1;
+            const impressions = simulationInput.impressionsPerDay || 1000;
+            
+            const totalTokens = Math.round(base * formatMultiplier * priorityMultiplier * days * screens * (impressions / 1000));
+            const totalUsd = totalTokens * 0.04;
+            
+            setSimulationResult({
+                finalPrice: totalTokens,
+                usd: totalUsd,
+                breakdown: [
+                    { factor: 'Base Rate / Day', change: base * days },
+                    { factor: `Format Adjuster (${simulationInput.adFormat})`, change: (formatMultiplier - 1.0) * base * days },
+                    { factor: `Priority Adjuster (${simulationInput.slotPriority})`, change: (priorityMultiplier - 1.0) * base * days },
+                    { factor: `Impressions multiplier`, change: (impressions / 1000) },
+                    { factor: `Screen Quantity (${screens} displays)`, change: screens }
+                ]
+            });
+            return;
+        }
+
         const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/pricing/calculate`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

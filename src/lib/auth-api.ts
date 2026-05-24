@@ -47,6 +47,11 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}): P
 };
 
 export const refreshAccessToken = async (): Promise<string | null> => {
+    const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+    if (isDemoMode) {
+        return 'mock-access-token-xyz';
+    }
+
     const storedRefreshToken = localStorage.getItem('refreshToken');
 
     if (!storedRefreshToken) return null;

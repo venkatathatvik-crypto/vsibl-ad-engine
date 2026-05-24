@@ -34,6 +34,24 @@ const LocationManager = () => {
 
     const fetchLocations = async () => {
         setLoading(true);
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            const stored = localStorage.getItem('demo_locations');
+            if (stored) {
+                setLocations(JSON.parse(stored));
+            } else {
+                const defaultLocations = [
+                    { id: '1', name: 'Marina Front Billboard', locationString: 'Chennai, Marina Beach', tokensPerHour: 120, status: 'Available' },
+                    { id: '2', name: 'OMR Tech Park Screen', locationString: 'Chennai, OMR IT Corridor', tokensPerHour: 80, status: 'Available' },
+                    { id: '3', name: 'Express Avenue Mall Dome', locationString: 'Chennai, Royapettah', tokensPerHour: 150, status: 'Available' },
+                ];
+                localStorage.setItem('demo_locations', JSON.stringify(defaultLocations));
+                setLocations(defaultLocations);
+            }
+            setLoading(false);
+            return;
+        }
+
         try {
             const token = localStorage.getItem('auth_token'); // Assuming auth token is stored here
             const response = await fetch(API_URL, {
@@ -58,6 +76,24 @@ const LocationManager = () => {
     const handleAddLocation = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSaving(true);
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            const stored = localStorage.getItem('demo_locations');
+            const list = stored ? JSON.parse(stored) : [];
+            const newLocItem = {
+                id: Math.random().toString(36).substr(2, 9),
+                ...newLocation
+            };
+            const updated = [...list, newLocItem];
+            localStorage.setItem('demo_locations', JSON.stringify(updated));
+            setLocations(updated);
+            toast.success('Location added successfully (Demo Mode)');
+            setShowAddForm(false);
+            setNewLocation({ name: '', locationString: '', tokensPerHour: 50, status: 'Available' });
+            setIsSaving(false);
+            return;
+        }
+
         try {
             const token = localStorage.getItem('auth_token');
             const response = await fetch(API_URL, {
@@ -83,6 +119,17 @@ const LocationManager = () => {
     const handleDeleteLocation = async (id: string) => {
         if (!confirm('Are you sure you want to delete this location?')) return;
 
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            const stored = localStorage.getItem('demo_locations');
+            const list = stored ? JSON.parse(stored) : [];
+            const updated = list.filter((l: any) => l.id !== id);
+            localStorage.setItem('demo_locations', JSON.stringify(updated));
+            setLocations(updated);
+            toast.success('Location deleted (Demo Mode)');
+            return;
+        }
+
         try {
             const token = localStorage.getItem('auth_token');
             const response = await fetch(`${API_URL}/${id}`, {
@@ -100,6 +147,17 @@ const LocationManager = () => {
     };
 
     const handleUpdateTokenCost = async (id: string, cost: number) => {
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            const stored = localStorage.getItem('demo_locations');
+            const list = stored ? JSON.parse(stored) : [];
+            const updated = list.map((l: any) => l.id === id ? { ...l, tokensPerHour: cost } : l);
+            localStorage.setItem('demo_locations', JSON.stringify(updated));
+            setLocations(updated);
+            toast.success('Token cost updated (Demo Mode)');
+            return;
+        }
+
         try {
             const location = locations.find(l => l.id === id);
             if (!location) return;

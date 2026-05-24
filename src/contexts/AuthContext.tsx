@@ -33,11 +33,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const setSession = (user: User, token: string, refreshToken: string) => {
         setAccessToken(token);
         localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('auth_token', token);
         localStorage.setItem('user', JSON.stringify(user));
         setUser(user);
     };
 
     const initAuth = async () => {
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+                setUser(JSON.parse(storedUser));
+            }
+            setIsLoading(false);
+            return;
+        }
+
         const token = await refreshAccessToken();
         if (token) {
             const storedUser = localStorage.getItem('user');
@@ -53,6 +64,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     const login = async (credentials: any, requiredRole?: 'ADMIN' | 'CLIENT') => {
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            const role = requiredRole || 'CLIENT';
+            const mockUser: User = {
+                id: role === 'ADMIN' ? 'mock-admin-id' : 'mock-client-id',
+                email: credentials.email || (role === 'ADMIN' ? 'admin@vsibl.com' : 'client@vsibl.com'),
+                name: credentials.email ? credentials.email.split('@')[0] : (role === 'ADMIN' ? 'Demo Admin' : 'Demo Client'),
+                role: role,
+            };
+            setSession(mockUser, 'mock-access-token-xyz', 'mock-refresh-token-xyz');
+            toast.success(`Welcome back (Demo Mode - ${role})!`);
+            return;
+        }
+
         try {
             const data = await apiRequest('/login', {
                 method: 'POST',
@@ -72,6 +97,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const register = async (credentials: any) => {
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            const mockUser: User = {
+                id: 'mock-client-id',
+                email: credentials.email || 'client@vsibl.com',
+                name: credentials.name || 'Demo Client',
+                role: 'CLIENT',
+            };
+            setSession(mockUser, 'mock-access-token-xyz', 'mock-refresh-token-xyz');
+            toast.success('Account created successfully (Demo Mode)!');
+            return;
+        }
+
         try {
             const data = await apiRequest('/register', {
                 method: 'POST',
@@ -87,6 +125,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const signInWithGoogle = async (requiredRole?: 'ADMIN' | 'CLIENT') => {
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            const role = requiredRole || 'CLIENT';
+            const mockUser: User = {
+                id: role === 'ADMIN' ? 'mock-admin-id' : 'mock-client-id',
+                email: role === 'ADMIN' ? 'admin@vsibl.com' : 'client@vsibl.com',
+                name: role === 'ADMIN' ? 'Demo Google Admin' : 'Demo Google Client',
+                role: role,
+            };
+            setSession(mockUser, 'mock-access-token-xyz', 'mock-refresh-token-xyz');
+            toast.success('Signed in with Google (Demo Mode)!');
+            return;
+        }
+
         try {
             console.log('[Auth] Initiating Google Sign-In...');
             const result = await signInWithPopup(auth, googleProvider);
@@ -126,6 +178,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const requestPasswordReset = async (email: string) => {
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            toast.info('Verification code sent to your email (Demo Mode)');
+            return;
+        }
+
         try {
             await apiRequest('/recovery/request', {
                 method: 'POST',
@@ -139,6 +197,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const resetPassword = async (data: { email: string; otp: string; newPassword: any }) => {
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            toast.success('Password updated successfully (Demo Mode)!');
+            return;
+        }
+
         try {
             await apiRequest('/recovery/verify', {
                 method: 'POST',
@@ -152,6 +216,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const logout = async () => {
+        const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+        if (isDemoMode) {
+            setAccessToken(null);
+            localStorage.removeItem('refreshToken');
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user');
+            setUser(null);
+            toast.info('Logged out (Demo Mode)');
+            return;
+        }
+
         try {
             const refreshToken = localStorage.getItem('refreshToken');
             if (refreshToken) {
@@ -165,6 +240,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } finally {
             setAccessToken(null);
             localStorage.removeItem('refreshToken');
+            localStorage.removeItem('auth_token');
             localStorage.removeItem('user');
             setUser(null);
             toast.info('Logged out');
