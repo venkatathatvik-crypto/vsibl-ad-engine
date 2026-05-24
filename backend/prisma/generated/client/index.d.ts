@@ -94,6 +94,11 @@ export type RefreshToken = $Result.DefaultSelection<Prisma.$RefreshTokenPayload>
  */
 export type VerificationRequest = $Result.DefaultSelection<Prisma.$VerificationRequestPayload>
 /**
+ * Model VerificationToken
+ * 
+ */
+export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
+/**
  * Model AdLocation
  * 
  */
@@ -392,6 +397,16 @@ export class PrismaClient<
     * ```
     */
   get verificationRequest(): Prisma.VerificationRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.verificationToken`: Exposes CRUD operations for the **VerificationToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VerificationTokens
+    * const verificationTokens = await prisma.verificationToken.findMany()
+    * ```
+    */
+  get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.adLocation`: Exposes CRUD operations for the **AdLocation** model.
@@ -852,6 +867,7 @@ export namespace Prisma {
     PlaybackSchedule: 'PlaybackSchedule',
     RefreshToken: 'RefreshToken',
     VerificationRequest: 'VerificationRequest',
+    VerificationToken: 'VerificationToken',
     AdLocation: 'AdLocation'
   };
 
@@ -868,7 +884,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authIdentity" | "campaign" | "ad" | "adImpression" | "adClick" | "pricingConfig" | "pricingVersion" | "pricingFactor" | "timeSlot" | "campaignPricingSnapshot" | "wallet" | "transaction" | "playbackSchedule" | "refreshToken" | "verificationRequest" | "adLocation"
+      modelProps: "user" | "authIdentity" | "campaign" | "ad" | "adImpression" | "adClick" | "pricingConfig" | "pricingVersion" | "pricingFactor" | "timeSlot" | "campaignPricingSnapshot" | "wallet" | "transaction" | "playbackSchedule" | "refreshToken" | "verificationRequest" | "verificationToken" | "adLocation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2056,6 +2072,80 @@ export namespace Prisma {
           }
         }
       }
+      VerificationToken: {
+        payload: Prisma.$VerificationTokenPayload<ExtArgs>
+        fields: Prisma.VerificationTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VerificationTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VerificationTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.VerificationTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VerificationTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          findMany: {
+            args: Prisma.VerificationTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>[]
+          }
+          create: {
+            args: Prisma.VerificationTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          createMany: {
+            args: Prisma.VerificationTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VerificationTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.VerificationTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          update: {
+            args: Prisma.VerificationTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.VerificationTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VerificationTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VerificationTokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>[]
+          }
+          upsert: {
+            args: Prisma.VerificationTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.VerificationTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVerificationToken>
+          }
+          groupBy: {
+            args: Prisma.VerificationTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VerificationTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VerificationTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<VerificationTokenCountAggregateOutputType> | number
+          }
+        }
+      }
       AdLocation: {
         payload: Prisma.$AdLocationPayload<ExtArgs>
         fields: Prisma.AdLocationFieldRefs
@@ -2254,6 +2344,7 @@ export namespace Prisma {
     playbackSchedule?: PlaybackScheduleOmit
     refreshToken?: RefreshTokenOmit
     verificationRequest?: VerificationRequestOmit
+    verificationToken?: VerificationTokenOmit
     adLocation?: AdLocationOmit
   }
 
@@ -2504,15 +2595,15 @@ export namespace Prisma {
    */
 
   export type PricingVersionCountOutputType = {
-    factors: number
-    timeSlots: number
+    factorEntries: number
+    timeSlotEntries: number
     campaigns: number
     snapshots: number
   }
 
   export type PricingVersionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    factors?: boolean | PricingVersionCountOutputTypeCountFactorsArgs
-    timeSlots?: boolean | PricingVersionCountOutputTypeCountTimeSlotsArgs
+    factorEntries?: boolean | PricingVersionCountOutputTypeCountFactorEntriesArgs
+    timeSlotEntries?: boolean | PricingVersionCountOutputTypeCountTimeSlotEntriesArgs
     campaigns?: boolean | PricingVersionCountOutputTypeCountCampaignsArgs
     snapshots?: boolean | PricingVersionCountOutputTypeCountSnapshotsArgs
   }
@@ -2531,14 +2622,14 @@ export namespace Prisma {
   /**
    * PricingVersionCountOutputType without action
    */
-  export type PricingVersionCountOutputTypeCountFactorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PricingVersionCountOutputTypeCountFactorEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PricingFactorWhereInput
   }
 
   /**
    * PricingVersionCountOutputType without action
    */
-  export type PricingVersionCountOutputTypeCountTimeSlotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PricingVersionCountOutputTypeCountTimeSlotEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TimeSlotWhereInput
   }
 
@@ -10675,20 +10766,20 @@ export namespace Prisma {
   }
 
   export type PricingVersionAvgAggregateOutputType = {
-    versionNumber: number | null
+    version: number | null
     basePrice: Decimal | null
     tokenUsdPrice: Decimal | null
   }
 
   export type PricingVersionSumAggregateOutputType = {
-    versionNumber: number | null
+    version: number | null
     basePrice: Decimal | null
     tokenUsdPrice: Decimal | null
   }
 
   export type PricingVersionMinAggregateOutputType = {
     id: string | null
-    versionNumber: number | null
+    version: number | null
     pricingConfigId: string | null
     basePrice: Decimal | null
     tokenUsdPrice: Decimal | null
@@ -10699,7 +10790,7 @@ export namespace Prisma {
 
   export type PricingVersionMaxAggregateOutputType = {
     id: string | null
-    versionNumber: number | null
+    version: number | null
     pricingConfigId: string | null
     basePrice: Decimal | null
     tokenUsdPrice: Decimal | null
@@ -10710,11 +10801,16 @@ export namespace Prisma {
 
   export type PricingVersionCountAggregateOutputType = {
     id: number
-    versionNumber: number
+    version: number
     pricingConfigId: number
     basePrice: number
     tokenUsdPrice: number
     status: number
+    screenSlabs: number
+    timeSlots: number
+    formatMultipliers: number
+    durationSlabs: number
+    factorPriorities: number
     createdAt: number
     publishedAt: number
     _all: number
@@ -10722,20 +10818,20 @@ export namespace Prisma {
 
 
   export type PricingVersionAvgAggregateInputType = {
-    versionNumber?: true
+    version?: true
     basePrice?: true
     tokenUsdPrice?: true
   }
 
   export type PricingVersionSumAggregateInputType = {
-    versionNumber?: true
+    version?: true
     basePrice?: true
     tokenUsdPrice?: true
   }
 
   export type PricingVersionMinAggregateInputType = {
     id?: true
-    versionNumber?: true
+    version?: true
     pricingConfigId?: true
     basePrice?: true
     tokenUsdPrice?: true
@@ -10746,7 +10842,7 @@ export namespace Prisma {
 
   export type PricingVersionMaxAggregateInputType = {
     id?: true
-    versionNumber?: true
+    version?: true
     pricingConfigId?: true
     basePrice?: true
     tokenUsdPrice?: true
@@ -10757,11 +10853,16 @@ export namespace Prisma {
 
   export type PricingVersionCountAggregateInputType = {
     id?: true
-    versionNumber?: true
+    version?: true
     pricingConfigId?: true
     basePrice?: true
     tokenUsdPrice?: true
     status?: true
+    screenSlabs?: true
+    timeSlots?: true
+    formatMultipliers?: true
+    durationSlabs?: true
+    factorPriorities?: true
     createdAt?: true
     publishedAt?: true
     _all?: true
@@ -10855,11 +10956,16 @@ export namespace Prisma {
 
   export type PricingVersionGroupByOutputType = {
     id: string
-    versionNumber: number
+    version: number
     pricingConfigId: string
     basePrice: Decimal
     tokenUsdPrice: Decimal
     status: string
+    screenSlabs: JsonValue
+    timeSlots: JsonValue
+    formatMultipliers: JsonValue
+    durationSlabs: JsonValue
+    factorPriorities: JsonValue
     createdAt: Date
     publishedAt: Date | null
     _count: PricingVersionCountAggregateOutputType | null
@@ -10885,16 +10991,21 @@ export namespace Prisma {
 
   export type PricingVersionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    versionNumber?: boolean
+    version?: boolean
     pricingConfigId?: boolean
     basePrice?: boolean
     tokenUsdPrice?: boolean
     status?: boolean
+    screenSlabs?: boolean
+    timeSlots?: boolean
+    formatMultipliers?: boolean
+    durationSlabs?: boolean
+    factorPriorities?: boolean
     createdAt?: boolean
     publishedAt?: boolean
     pricingConfig?: boolean | PricingConfigDefaultArgs<ExtArgs>
-    factors?: boolean | PricingVersion$factorsArgs<ExtArgs>
-    timeSlots?: boolean | PricingVersion$timeSlotsArgs<ExtArgs>
+    factorEntries?: boolean | PricingVersion$factorEntriesArgs<ExtArgs>
+    timeSlotEntries?: boolean | PricingVersion$timeSlotEntriesArgs<ExtArgs>
     activeConfig?: boolean | PricingVersion$activeConfigArgs<ExtArgs>
     campaigns?: boolean | PricingVersion$campaignsArgs<ExtArgs>
     snapshots?: boolean | PricingVersion$snapshotsArgs<ExtArgs>
@@ -10903,11 +11014,16 @@ export namespace Prisma {
 
   export type PricingVersionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    versionNumber?: boolean
+    version?: boolean
     pricingConfigId?: boolean
     basePrice?: boolean
     tokenUsdPrice?: boolean
     status?: boolean
+    screenSlabs?: boolean
+    timeSlots?: boolean
+    formatMultipliers?: boolean
+    durationSlabs?: boolean
+    factorPriorities?: boolean
     createdAt?: boolean
     publishedAt?: boolean
     pricingConfig?: boolean | PricingConfigDefaultArgs<ExtArgs>
@@ -10915,11 +11031,16 @@ export namespace Prisma {
 
   export type PricingVersionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    versionNumber?: boolean
+    version?: boolean
     pricingConfigId?: boolean
     basePrice?: boolean
     tokenUsdPrice?: boolean
     status?: boolean
+    screenSlabs?: boolean
+    timeSlots?: boolean
+    formatMultipliers?: boolean
+    durationSlabs?: boolean
+    factorPriorities?: boolean
     createdAt?: boolean
     publishedAt?: boolean
     pricingConfig?: boolean | PricingConfigDefaultArgs<ExtArgs>
@@ -10927,20 +11048,25 @@ export namespace Prisma {
 
   export type PricingVersionSelectScalar = {
     id?: boolean
-    versionNumber?: boolean
+    version?: boolean
     pricingConfigId?: boolean
     basePrice?: boolean
     tokenUsdPrice?: boolean
     status?: boolean
+    screenSlabs?: boolean
+    timeSlots?: boolean
+    formatMultipliers?: boolean
+    durationSlabs?: boolean
+    factorPriorities?: boolean
     createdAt?: boolean
     publishedAt?: boolean
   }
 
-  export type PricingVersionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "versionNumber" | "pricingConfigId" | "basePrice" | "tokenUsdPrice" | "status" | "createdAt" | "publishedAt", ExtArgs["result"]["pricingVersion"]>
+  export type PricingVersionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "version" | "pricingConfigId" | "basePrice" | "tokenUsdPrice" | "status" | "screenSlabs" | "timeSlots" | "formatMultipliers" | "durationSlabs" | "factorPriorities" | "createdAt" | "publishedAt", ExtArgs["result"]["pricingVersion"]>
   export type PricingVersionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pricingConfig?: boolean | PricingConfigDefaultArgs<ExtArgs>
-    factors?: boolean | PricingVersion$factorsArgs<ExtArgs>
-    timeSlots?: boolean | PricingVersion$timeSlotsArgs<ExtArgs>
+    factorEntries?: boolean | PricingVersion$factorEntriesArgs<ExtArgs>
+    timeSlotEntries?: boolean | PricingVersion$timeSlotEntriesArgs<ExtArgs>
     activeConfig?: boolean | PricingVersion$activeConfigArgs<ExtArgs>
     campaigns?: boolean | PricingVersion$campaignsArgs<ExtArgs>
     snapshots?: boolean | PricingVersion$snapshotsArgs<ExtArgs>
@@ -10957,19 +11083,24 @@ export namespace Prisma {
     name: "PricingVersion"
     objects: {
       pricingConfig: Prisma.$PricingConfigPayload<ExtArgs>
-      factors: Prisma.$PricingFactorPayload<ExtArgs>[]
-      timeSlots: Prisma.$TimeSlotPayload<ExtArgs>[]
+      factorEntries: Prisma.$PricingFactorPayload<ExtArgs>[]
+      timeSlotEntries: Prisma.$TimeSlotPayload<ExtArgs>[]
       activeConfig: Prisma.$PricingConfigPayload<ExtArgs> | null
       campaigns: Prisma.$CampaignPayload<ExtArgs>[]
       snapshots: Prisma.$CampaignPricingSnapshotPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      versionNumber: number
+      version: number
       pricingConfigId: string
       basePrice: Prisma.Decimal
       tokenUsdPrice: Prisma.Decimal
       status: string
+      screenSlabs: Prisma.JsonValue
+      timeSlots: Prisma.JsonValue
+      formatMultipliers: Prisma.JsonValue
+      durationSlabs: Prisma.JsonValue
+      factorPriorities: Prisma.JsonValue
       createdAt: Date
       publishedAt: Date | null
     }, ExtArgs["result"]["pricingVersion"]>
@@ -11367,8 +11498,8 @@ export namespace Prisma {
   export interface Prisma__PricingVersionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     pricingConfig<T extends PricingConfigDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PricingConfigDefaultArgs<ExtArgs>>): Prisma__PricingConfigClient<$Result.GetResult<Prisma.$PricingConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    factors<T extends PricingVersion$factorsArgs<ExtArgs> = {}>(args?: Subset<T, PricingVersion$factorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PricingFactorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    timeSlots<T extends PricingVersion$timeSlotsArgs<ExtArgs> = {}>(args?: Subset<T, PricingVersion$timeSlotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    factorEntries<T extends PricingVersion$factorEntriesArgs<ExtArgs> = {}>(args?: Subset<T, PricingVersion$factorEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PricingFactorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    timeSlotEntries<T extends PricingVersion$timeSlotEntriesArgs<ExtArgs> = {}>(args?: Subset<T, PricingVersion$timeSlotEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     activeConfig<T extends PricingVersion$activeConfigArgs<ExtArgs> = {}>(args?: Subset<T, PricingVersion$activeConfigArgs<ExtArgs>>): Prisma__PricingConfigClient<$Result.GetResult<Prisma.$PricingConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     campaigns<T extends PricingVersion$campaignsArgs<ExtArgs> = {}>(args?: Subset<T, PricingVersion$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     snapshots<T extends PricingVersion$snapshotsArgs<ExtArgs> = {}>(args?: Subset<T, PricingVersion$snapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPricingSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -11402,11 +11533,16 @@ export namespace Prisma {
    */
   interface PricingVersionFieldRefs {
     readonly id: FieldRef<"PricingVersion", 'String'>
-    readonly versionNumber: FieldRef<"PricingVersion", 'Int'>
+    readonly version: FieldRef<"PricingVersion", 'Int'>
     readonly pricingConfigId: FieldRef<"PricingVersion", 'String'>
     readonly basePrice: FieldRef<"PricingVersion", 'Decimal'>
     readonly tokenUsdPrice: FieldRef<"PricingVersion", 'Decimal'>
     readonly status: FieldRef<"PricingVersion", 'String'>
+    readonly screenSlabs: FieldRef<"PricingVersion", 'Json'>
+    readonly timeSlots: FieldRef<"PricingVersion", 'Json'>
+    readonly formatMultipliers: FieldRef<"PricingVersion", 'Json'>
+    readonly durationSlabs: FieldRef<"PricingVersion", 'Json'>
+    readonly factorPriorities: FieldRef<"PricingVersion", 'Json'>
     readonly createdAt: FieldRef<"PricingVersion", 'DateTime'>
     readonly publishedAt: FieldRef<"PricingVersion", 'DateTime'>
   }
@@ -11805,9 +11941,9 @@ export namespace Prisma {
   }
 
   /**
-   * PricingVersion.factors
+   * PricingVersion.factorEntries
    */
-  export type PricingVersion$factorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PricingVersion$factorEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PricingFactor
      */
@@ -11829,9 +11965,9 @@ export namespace Prisma {
   }
 
   /**
-   * PricingVersion.timeSlots
+   * PricingVersion.timeSlotEntries
    */
-  export type PricingVersion$timeSlotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PricingVersion$timeSlotEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the TimeSlot
      */
@@ -20789,6 +20925,1014 @@ export namespace Prisma {
 
 
   /**
+   * Model VerificationToken
+   */
+
+  export type AggregateVerificationToken = {
+    _count: VerificationTokenCountAggregateOutputType | null
+    _min: VerificationTokenMinAggregateOutputType | null
+    _max: VerificationTokenMaxAggregateOutputType | null
+  }
+
+  export type VerificationTokenMinAggregateOutputType = {
+    id: string | null
+    email: string | null
+    token: string | null
+    type: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type VerificationTokenMaxAggregateOutputType = {
+    id: string | null
+    email: string | null
+    token: string | null
+    type: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type VerificationTokenCountAggregateOutputType = {
+    id: number
+    email: number
+    token: number
+    type: number
+    expiresAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type VerificationTokenMinAggregateInputType = {
+    id?: true
+    email?: true
+    token?: true
+    type?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type VerificationTokenMaxAggregateInputType = {
+    id?: true
+    email?: true
+    token?: true
+    type?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type VerificationTokenCountAggregateInputType = {
+    id?: true
+    email?: true
+    token?: true
+    type?: true
+    expiresAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type VerificationTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VerificationToken to aggregate.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VerificationTokens
+    **/
+    _count?: true | VerificationTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VerificationTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VerificationTokenMaxAggregateInputType
+  }
+
+  export type GetVerificationTokenAggregateType<T extends VerificationTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregateVerificationToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVerificationToken[P]>
+      : GetScalarType<T[P], AggregateVerificationToken[P]>
+  }
+
+
+
+
+  export type VerificationTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VerificationTokenWhereInput
+    orderBy?: VerificationTokenOrderByWithAggregationInput | VerificationTokenOrderByWithAggregationInput[]
+    by: VerificationTokenScalarFieldEnum[] | VerificationTokenScalarFieldEnum
+    having?: VerificationTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VerificationTokenCountAggregateInputType | true
+    _min?: VerificationTokenMinAggregateInputType
+    _max?: VerificationTokenMaxAggregateInputType
+  }
+
+  export type VerificationTokenGroupByOutputType = {
+    id: string
+    email: string
+    token: string
+    type: string
+    expiresAt: Date
+    createdAt: Date
+    _count: VerificationTokenCountAggregateOutputType | null
+    _min: VerificationTokenMinAggregateOutputType | null
+    _max: VerificationTokenMaxAggregateOutputType | null
+  }
+
+  type GetVerificationTokenGroupByPayload<T extends VerificationTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VerificationTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VerificationTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VerificationTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    token?: boolean
+    type?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["verificationToken"]>
+
+  export type VerificationTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    token?: boolean
+    type?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["verificationToken"]>
+
+  export type VerificationTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    token?: boolean
+    type?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["verificationToken"]>
+
+  export type VerificationTokenSelectScalar = {
+    id?: boolean
+    email?: boolean
+    token?: boolean
+    type?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type VerificationTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "token" | "type" | "expiresAt" | "createdAt", ExtArgs["result"]["verificationToken"]>
+
+  export type $VerificationTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VerificationToken"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      email: string
+      token: string
+      type: string
+      expiresAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["verificationToken"]>
+    composites: {}
+  }
+
+  type VerificationTokenGetPayload<S extends boolean | null | undefined | VerificationTokenDefaultArgs> = $Result.GetResult<Prisma.$VerificationTokenPayload, S>
+
+  type VerificationTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VerificationTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VerificationTokenCountAggregateInputType | true
+    }
+
+  export interface VerificationTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VerificationToken'], meta: { name: 'VerificationToken' } }
+    /**
+     * Find zero or one VerificationToken that matches the filter.
+     * @param {VerificationTokenFindUniqueArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VerificationTokenFindUniqueArgs>(args: SelectSubset<T, VerificationTokenFindUniqueArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VerificationToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VerificationTokenFindUniqueOrThrowArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VerificationTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, VerificationTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VerificationToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenFindFirstArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VerificationTokenFindFirstArgs>(args?: SelectSubset<T, VerificationTokenFindFirstArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VerificationToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenFindFirstOrThrowArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VerificationTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, VerificationTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VerificationTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VerificationTokens
+     * const verificationTokens = await prisma.verificationToken.findMany()
+     * 
+     * // Get first 10 VerificationTokens
+     * const verificationTokens = await prisma.verificationToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const verificationTokenWithIdOnly = await prisma.verificationToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VerificationTokenFindManyArgs>(args?: SelectSubset<T, VerificationTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VerificationToken.
+     * @param {VerificationTokenCreateArgs} args - Arguments to create a VerificationToken.
+     * @example
+     * // Create one VerificationToken
+     * const VerificationToken = await prisma.verificationToken.create({
+     *   data: {
+     *     // ... data to create a VerificationToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends VerificationTokenCreateArgs>(args: SelectSubset<T, VerificationTokenCreateArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VerificationTokens.
+     * @param {VerificationTokenCreateManyArgs} args - Arguments to create many VerificationTokens.
+     * @example
+     * // Create many VerificationTokens
+     * const verificationToken = await prisma.verificationToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VerificationTokenCreateManyArgs>(args?: SelectSubset<T, VerificationTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VerificationTokens and returns the data saved in the database.
+     * @param {VerificationTokenCreateManyAndReturnArgs} args - Arguments to create many VerificationTokens.
+     * @example
+     * // Create many VerificationTokens
+     * const verificationToken = await prisma.verificationToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VerificationTokens and only return the `id`
+     * const verificationTokenWithIdOnly = await prisma.verificationToken.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VerificationTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, VerificationTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VerificationToken.
+     * @param {VerificationTokenDeleteArgs} args - Arguments to delete one VerificationToken.
+     * @example
+     * // Delete one VerificationToken
+     * const VerificationToken = await prisma.verificationToken.delete({
+     *   where: {
+     *     // ... filter to delete one VerificationToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VerificationTokenDeleteArgs>(args: SelectSubset<T, VerificationTokenDeleteArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VerificationToken.
+     * @param {VerificationTokenUpdateArgs} args - Arguments to update one VerificationToken.
+     * @example
+     * // Update one VerificationToken
+     * const verificationToken = await prisma.verificationToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VerificationTokenUpdateArgs>(args: SelectSubset<T, VerificationTokenUpdateArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VerificationTokens.
+     * @param {VerificationTokenDeleteManyArgs} args - Arguments to filter VerificationTokens to delete.
+     * @example
+     * // Delete a few VerificationTokens
+     * const { count } = await prisma.verificationToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VerificationTokenDeleteManyArgs>(args?: SelectSubset<T, VerificationTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VerificationTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VerificationTokens
+     * const verificationToken = await prisma.verificationToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VerificationTokenUpdateManyArgs>(args: SelectSubset<T, VerificationTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VerificationTokens and returns the data updated in the database.
+     * @param {VerificationTokenUpdateManyAndReturnArgs} args - Arguments to update many VerificationTokens.
+     * @example
+     * // Update many VerificationTokens
+     * const verificationToken = await prisma.verificationToken.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VerificationTokens and only return the `id`
+     * const verificationTokenWithIdOnly = await prisma.verificationToken.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VerificationTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, VerificationTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VerificationToken.
+     * @param {VerificationTokenUpsertArgs} args - Arguments to update or create a VerificationToken.
+     * @example
+     * // Update or create a VerificationToken
+     * const verificationToken = await prisma.verificationToken.upsert({
+     *   create: {
+     *     // ... data to create a VerificationToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VerificationToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VerificationTokenUpsertArgs>(args: SelectSubset<T, VerificationTokenUpsertArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VerificationTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenCountArgs} args - Arguments to filter VerificationTokens to count.
+     * @example
+     * // Count the number of VerificationTokens
+     * const count = await prisma.verificationToken.count({
+     *   where: {
+     *     // ... the filter for the VerificationTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends VerificationTokenCountArgs>(
+      args?: Subset<T, VerificationTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VerificationTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VerificationToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VerificationTokenAggregateArgs>(args: Subset<T, VerificationTokenAggregateArgs>): Prisma.PrismaPromise<GetVerificationTokenAggregateType<T>>
+
+    /**
+     * Group by VerificationToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VerificationTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VerificationTokenGroupByArgs['orderBy'] }
+        : { orderBy?: VerificationTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VerificationTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVerificationTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VerificationToken model
+   */
+  readonly fields: VerificationTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VerificationToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VerificationTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VerificationToken model
+   */
+  interface VerificationTokenFieldRefs {
+    readonly id: FieldRef<"VerificationToken", 'String'>
+    readonly email: FieldRef<"VerificationToken", 'String'>
+    readonly token: FieldRef<"VerificationToken", 'String'>
+    readonly type: FieldRef<"VerificationToken", 'String'>
+    readonly expiresAt: FieldRef<"VerificationToken", 'DateTime'>
+    readonly createdAt: FieldRef<"VerificationToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VerificationToken findUnique
+   */
+  export type VerificationTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+  /**
+   * VerificationToken findUniqueOrThrow
+   */
+  export type VerificationTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+  /**
+   * VerificationToken findFirst
+   */
+  export type VerificationTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VerificationTokens.
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VerificationTokens.
+     */
+    distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+  }
+
+  /**
+   * VerificationToken findFirstOrThrow
+   */
+  export type VerificationTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VerificationTokens.
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VerificationTokens.
+     */
+    distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+  }
+
+  /**
+   * VerificationToken findMany
+   */
+  export type VerificationTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which VerificationTokens to fetch.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VerificationTokens.
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+  }
+
+  /**
+   * VerificationToken create
+   */
+  export type VerificationTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * The data needed to create a VerificationToken.
+     */
+    data: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
+  }
+
+  /**
+   * VerificationToken createMany
+   */
+  export type VerificationTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VerificationTokens.
+     */
+    data: VerificationTokenCreateManyInput | VerificationTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VerificationToken createManyAndReturn
+   */
+  export type VerificationTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * The data used to create many VerificationTokens.
+     */
+    data: VerificationTokenCreateManyInput | VerificationTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VerificationToken update
+   */
+  export type VerificationTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * The data needed to update a VerificationToken.
+     */
+    data: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
+    /**
+     * Choose, which VerificationToken to update.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+  /**
+   * VerificationToken updateMany
+   */
+  export type VerificationTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VerificationTokens.
+     */
+    data: XOR<VerificationTokenUpdateManyMutationInput, VerificationTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which VerificationTokens to update
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * Limit how many VerificationTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VerificationToken updateManyAndReturn
+   */
+  export type VerificationTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * The data used to update VerificationTokens.
+     */
+    data: XOR<VerificationTokenUpdateManyMutationInput, VerificationTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which VerificationTokens to update
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * Limit how many VerificationTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VerificationToken upsert
+   */
+  export type VerificationTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * The filter to search for the VerificationToken to update in case it exists.
+     */
+    where: VerificationTokenWhereUniqueInput
+    /**
+     * In case the VerificationToken found by the `where` argument doesn't exist, create a new VerificationToken with this data.
+     */
+    create: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
+    /**
+     * In case the VerificationToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * VerificationToken delete
+   */
+  export type VerificationTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Filter which VerificationToken to delete.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+  /**
+   * VerificationToken deleteMany
+   */
+  export type VerificationTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VerificationTokens to delete
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * Limit how many VerificationTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VerificationToken without action
+   */
+  export type VerificationTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model AdLocation
    */
 
@@ -21953,11 +23097,16 @@ export namespace Prisma {
 
   export const PricingVersionScalarFieldEnum: {
     id: 'id',
-    versionNumber: 'versionNumber',
+    version: 'version',
     pricingConfigId: 'pricingConfigId',
     basePrice: 'basePrice',
     tokenUsdPrice: 'tokenUsdPrice',
     status: 'status',
+    screenSlabs: 'screenSlabs',
+    timeSlots: 'timeSlots',
+    formatMultipliers: 'formatMultipliers',
+    durationSlabs: 'durationSlabs',
+    factorPriorities: 'factorPriorities',
     createdAt: 'createdAt',
     publishedAt: 'publishedAt'
   };
@@ -22074,6 +23223,18 @@ export namespace Prisma {
   export type VerificationRequestScalarFieldEnum = (typeof VerificationRequestScalarFieldEnum)[keyof typeof VerificationRequestScalarFieldEnum]
 
 
+  export const VerificationTokenScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    token: 'token',
+    type: 'type',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
+  };
+
+  export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
+
+
   export const AdLocationScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -22095,19 +23256,19 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
   export const NullableJsonNullValueInput: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull
   };
 
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-  export const JsonNullValueInput: {
-    JsonNull: typeof JsonNull
-  };
-
-  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -22211,13 +23372,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -22228,6 +23382,13 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -22766,16 +23927,21 @@ export namespace Prisma {
     OR?: PricingVersionWhereInput[]
     NOT?: PricingVersionWhereInput | PricingVersionWhereInput[]
     id?: StringFilter<"PricingVersion"> | string
-    versionNumber?: IntFilter<"PricingVersion"> | number
+    version?: IntFilter<"PricingVersion"> | number
     pricingConfigId?: StringFilter<"PricingVersion"> | string
     basePrice?: DecimalFilter<"PricingVersion"> | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFilter<"PricingVersion"> | Decimal | DecimalJsLike | number | string
     status?: StringFilter<"PricingVersion"> | string
+    screenSlabs?: JsonFilter<"PricingVersion">
+    timeSlots?: JsonFilter<"PricingVersion">
+    formatMultipliers?: JsonFilter<"PricingVersion">
+    durationSlabs?: JsonFilter<"PricingVersion">
+    factorPriorities?: JsonFilter<"PricingVersion">
     createdAt?: DateTimeFilter<"PricingVersion"> | Date | string
     publishedAt?: DateTimeNullableFilter<"PricingVersion"> | Date | string | null
     pricingConfig?: XOR<PricingConfigScalarRelationFilter, PricingConfigWhereInput>
-    factors?: PricingFactorListRelationFilter
-    timeSlots?: TimeSlotListRelationFilter
+    factorEntries?: PricingFactorListRelationFilter
+    timeSlotEntries?: TimeSlotListRelationFilter
     activeConfig?: XOR<PricingConfigNullableScalarRelationFilter, PricingConfigWhereInput> | null
     campaigns?: CampaignListRelationFilter
     snapshots?: CampaignPricingSnapshotListRelationFilter
@@ -22783,16 +23949,21 @@ export namespace Prisma {
 
   export type PricingVersionOrderByWithRelationInput = {
     id?: SortOrder
-    versionNumber?: SortOrder
+    version?: SortOrder
     pricingConfigId?: SortOrder
     basePrice?: SortOrder
     tokenUsdPrice?: SortOrder
     status?: SortOrder
+    screenSlabs?: SortOrder
+    timeSlots?: SortOrder
+    formatMultipliers?: SortOrder
+    durationSlabs?: SortOrder
+    factorPriorities?: SortOrder
     createdAt?: SortOrder
     publishedAt?: SortOrderInput | SortOrder
     pricingConfig?: PricingConfigOrderByWithRelationInput
-    factors?: PricingFactorOrderByRelationAggregateInput
-    timeSlots?: TimeSlotOrderByRelationAggregateInput
+    factorEntries?: PricingFactorOrderByRelationAggregateInput
+    timeSlotEntries?: TimeSlotOrderByRelationAggregateInput
     activeConfig?: PricingConfigOrderByWithRelationInput
     campaigns?: CampaignOrderByRelationAggregateInput
     snapshots?: CampaignPricingSnapshotOrderByRelationAggregateInput
@@ -22800,31 +23971,41 @@ export namespace Prisma {
 
   export type PricingVersionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    version?: number
     AND?: PricingVersionWhereInput | PricingVersionWhereInput[]
     OR?: PricingVersionWhereInput[]
     NOT?: PricingVersionWhereInput | PricingVersionWhereInput[]
-    versionNumber?: IntFilter<"PricingVersion"> | number
     pricingConfigId?: StringFilter<"PricingVersion"> | string
     basePrice?: DecimalFilter<"PricingVersion"> | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFilter<"PricingVersion"> | Decimal | DecimalJsLike | number | string
     status?: StringFilter<"PricingVersion"> | string
+    screenSlabs?: JsonFilter<"PricingVersion">
+    timeSlots?: JsonFilter<"PricingVersion">
+    formatMultipliers?: JsonFilter<"PricingVersion">
+    durationSlabs?: JsonFilter<"PricingVersion">
+    factorPriorities?: JsonFilter<"PricingVersion">
     createdAt?: DateTimeFilter<"PricingVersion"> | Date | string
     publishedAt?: DateTimeNullableFilter<"PricingVersion"> | Date | string | null
     pricingConfig?: XOR<PricingConfigScalarRelationFilter, PricingConfigWhereInput>
-    factors?: PricingFactorListRelationFilter
-    timeSlots?: TimeSlotListRelationFilter
+    factorEntries?: PricingFactorListRelationFilter
+    timeSlotEntries?: TimeSlotListRelationFilter
     activeConfig?: XOR<PricingConfigNullableScalarRelationFilter, PricingConfigWhereInput> | null
     campaigns?: CampaignListRelationFilter
     snapshots?: CampaignPricingSnapshotListRelationFilter
-  }, "id">
+  }, "id" | "version">
 
   export type PricingVersionOrderByWithAggregationInput = {
     id?: SortOrder
-    versionNumber?: SortOrder
+    version?: SortOrder
     pricingConfigId?: SortOrder
     basePrice?: SortOrder
     tokenUsdPrice?: SortOrder
     status?: SortOrder
+    screenSlabs?: SortOrder
+    timeSlots?: SortOrder
+    formatMultipliers?: SortOrder
+    durationSlabs?: SortOrder
+    factorPriorities?: SortOrder
     createdAt?: SortOrder
     publishedAt?: SortOrderInput | SortOrder
     _count?: PricingVersionCountOrderByAggregateInput
@@ -22839,11 +24020,16 @@ export namespace Prisma {
     OR?: PricingVersionScalarWhereWithAggregatesInput[]
     NOT?: PricingVersionScalarWhereWithAggregatesInput | PricingVersionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"PricingVersion"> | string
-    versionNumber?: IntWithAggregatesFilter<"PricingVersion"> | number
+    version?: IntWithAggregatesFilter<"PricingVersion"> | number
     pricingConfigId?: StringWithAggregatesFilter<"PricingVersion"> | string
     basePrice?: DecimalWithAggregatesFilter<"PricingVersion"> | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalWithAggregatesFilter<"PricingVersion"> | Decimal | DecimalJsLike | number | string
     status?: StringWithAggregatesFilter<"PricingVersion"> | string
+    screenSlabs?: JsonWithAggregatesFilter<"PricingVersion">
+    timeSlots?: JsonWithAggregatesFilter<"PricingVersion">
+    formatMultipliers?: JsonWithAggregatesFilter<"PricingVersion">
+    durationSlabs?: JsonWithAggregatesFilter<"PricingVersion">
+    factorPriorities?: JsonWithAggregatesFilter<"PricingVersion">
     createdAt?: DateTimeWithAggregatesFilter<"PricingVersion"> | Date | string
     publishedAt?: DateTimeNullableWithAggregatesFilter<"PricingVersion"> | Date | string | null
   }
@@ -23403,6 +24589,63 @@ export namespace Prisma {
     expiresAt?: DateTimeWithAggregatesFilter<"VerificationRequest"> | Date | string
     verifiedAt?: DateTimeNullableWithAggregatesFilter<"VerificationRequest"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"VerificationRequest"> | Date | string
+  }
+
+  export type VerificationTokenWhereInput = {
+    AND?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
+    OR?: VerificationTokenWhereInput[]
+    NOT?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
+    id?: StringFilter<"VerificationToken"> | string
+    email?: StringFilter<"VerificationToken"> | string
+    token?: StringFilter<"VerificationToken"> | string
+    type?: StringFilter<"VerificationToken"> | string
+    expiresAt?: DateTimeFilter<"VerificationToken"> | Date | string
+    createdAt?: DateTimeFilter<"VerificationToken"> | Date | string
+  }
+
+  export type VerificationTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    type?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VerificationTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
+    OR?: VerificationTokenWhereInput[]
+    NOT?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
+    email?: StringFilter<"VerificationToken"> | string
+    type?: StringFilter<"VerificationToken"> | string
+    expiresAt?: DateTimeFilter<"VerificationToken"> | Date | string
+    createdAt?: DateTimeFilter<"VerificationToken"> | Date | string
+  }, "id" | "token">
+
+  export type VerificationTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    type?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: VerificationTokenCountOrderByAggregateInput
+    _max?: VerificationTokenMaxOrderByAggregateInput
+    _min?: VerificationTokenMinOrderByAggregateInput
+  }
+
+  export type VerificationTokenScalarWhereWithAggregatesInput = {
+    AND?: VerificationTokenScalarWhereWithAggregatesInput | VerificationTokenScalarWhereWithAggregatesInput[]
+    OR?: VerificationTokenScalarWhereWithAggregatesInput[]
+    NOT?: VerificationTokenScalarWhereWithAggregatesInput | VerificationTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"VerificationToken"> | string
+    email?: StringWithAggregatesFilter<"VerificationToken"> | string
+    token?: StringWithAggregatesFilter<"VerificationToken"> | string
+    type?: StringWithAggregatesFilter<"VerificationToken"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
   }
 
   export type AdLocationWhereInput = {
@@ -24019,15 +25262,20 @@ export namespace Prisma {
 
   export type PricingVersionCreateInput = {
     id?: string
-    versionNumber: number
+    version: number
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
     pricingConfig: PricingConfigCreateNestedOneWithoutVersionsInput
-    factors?: PricingFactorCreateNestedManyWithoutPricingVersionInput
-    timeSlots?: TimeSlotCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigCreateNestedOneWithoutActiveVersionInput
     campaigns?: CampaignCreateNestedManyWithoutPricingVersionInput
     snapshots?: CampaignPricingSnapshotCreateNestedManyWithoutPricingVersionInput
@@ -24035,15 +25283,20 @@ export namespace Prisma {
 
   export type PricingVersionUncheckedCreateInput = {
     id?: string
-    versionNumber: number
+    version: number
     pricingConfigId: string
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
-    factors?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
-    timeSlots?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigUncheckedCreateNestedOneWithoutActiveVersionInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutPricingVersionInput
     snapshots?: CampaignPricingSnapshotUncheckedCreateNestedManyWithoutPricingVersionInput
@@ -24051,15 +25304,20 @@ export namespace Prisma {
 
   export type PricingVersionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pricingConfig?: PricingConfigUpdateOneRequiredWithoutVersionsNestedInput
-    factors?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
-    timeSlots?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUpdateOneWithoutActiveVersionNestedInput
     campaigns?: CampaignUpdateManyWithoutPricingVersionNestedInput
     snapshots?: CampaignPricingSnapshotUpdateManyWithoutPricingVersionNestedInput
@@ -24067,15 +25325,20 @@ export namespace Prisma {
 
   export type PricingVersionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     pricingConfigId?: StringFieldUpdateOperationsInput | string
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    factors?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
-    timeSlots?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUncheckedUpdateOneWithoutActiveVersionNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutPricingVersionNestedInput
     snapshots?: CampaignPricingSnapshotUncheckedUpdateManyWithoutPricingVersionNestedInput
@@ -24083,32 +25346,47 @@ export namespace Prisma {
 
   export type PricingVersionCreateManyInput = {
     id?: string
-    versionNumber: number
+    version: number
     pricingConfigId: string
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
   }
 
   export type PricingVersionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PricingVersionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     pricingConfigId?: StringFieldUpdateOperationsInput | string
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -24124,7 +25402,7 @@ export namespace Prisma {
     config?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    pricingVersion: PricingVersionCreateNestedOneWithoutFactorsInput
+    pricingVersion: PricingVersionCreateNestedOneWithoutFactorEntriesInput
   }
 
   export type PricingFactorUncheckedCreateInput = {
@@ -24152,7 +25430,7 @@ export namespace Prisma {
     config?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricingVersion?: PricingVersionUpdateOneRequiredWithoutFactorsNestedInput
+    pricingVersion?: PricingVersionUpdateOneRequiredWithoutFactorEntriesNestedInput
   }
 
   export type PricingFactorUncheckedUpdateInput = {
@@ -24219,7 +25497,7 @@ export namespace Prisma {
     priority?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    pricingVersion: PricingVersionCreateNestedOneWithoutTimeSlotsInput
+    pricingVersion: PricingVersionCreateNestedOneWithoutTimeSlotEntriesInput
   }
 
   export type TimeSlotUncheckedCreateInput = {
@@ -24243,7 +25521,7 @@ export namespace Prisma {
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pricingVersion?: PricingVersionUpdateOneRequiredWithoutTimeSlotsNestedInput
+    pricingVersion?: PricingVersionUpdateOneRequiredWithoutTimeSlotEntriesNestedInput
   }
 
   export type TimeSlotUncheckedUpdateInput = {
@@ -24697,6 +25975,69 @@ export namespace Prisma {
     attempts?: IntFieldUpdateOperationsInput | number
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenCreateInput = {
+    id?: string
+    email: string
+    token: string
+    type: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VerificationTokenUncheckedCreateInput = {
+    id?: string
+    email: string
+    token: string
+    type: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VerificationTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenCreateManyInput = {
+    id?: string
+    email: string
+    token: string
+    type: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VerificationTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -25334,6 +26675,29 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type PricingConfigScalarRelationFilter = {
     is?: PricingConfigWhereInput
@@ -25377,24 +26741,29 @@ export namespace Prisma {
 
   export type PricingVersionCountOrderByAggregateInput = {
     id?: SortOrder
-    versionNumber?: SortOrder
+    version?: SortOrder
     pricingConfigId?: SortOrder
     basePrice?: SortOrder
     tokenUsdPrice?: SortOrder
     status?: SortOrder
+    screenSlabs?: SortOrder
+    timeSlots?: SortOrder
+    formatMultipliers?: SortOrder
+    durationSlabs?: SortOrder
+    factorPriorities?: SortOrder
     createdAt?: SortOrder
     publishedAt?: SortOrder
   }
 
   export type PricingVersionAvgOrderByAggregateInput = {
-    versionNumber?: SortOrder
+    version?: SortOrder
     basePrice?: SortOrder
     tokenUsdPrice?: SortOrder
   }
 
   export type PricingVersionMaxOrderByAggregateInput = {
     id?: SortOrder
-    versionNumber?: SortOrder
+    version?: SortOrder
     pricingConfigId?: SortOrder
     basePrice?: SortOrder
     tokenUsdPrice?: SortOrder
@@ -25405,7 +26774,7 @@ export namespace Prisma {
 
   export type PricingVersionMinOrderByAggregateInput = {
     id?: SortOrder
-    versionNumber?: SortOrder
+    version?: SortOrder
     pricingConfigId?: SortOrder
     basePrice?: SortOrder
     tokenUsdPrice?: SortOrder
@@ -25415,9 +26784,35 @@ export namespace Prisma {
   }
 
   export type PricingVersionSumOrderByAggregateInput = {
-    versionNumber?: SortOrder
+    version?: SortOrder
     basePrice?: SortOrder
     tokenUsdPrice?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -25582,29 +26977,6 @@ export namespace Prisma {
     multiplier?: SortOrder
     priority?: SortOrder
   }
-  export type JsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type CampaignPricingSnapshotCountOrderByAggregateInput = {
     id?: SortOrder
@@ -25642,32 +27014,6 @@ export namespace Prisma {
   export type CampaignPricingSnapshotSumOrderByAggregateInput = {
     basePrice?: SortOrder
     finalPrice?: SortOrder
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type WalletCountOrderByAggregateInput = {
@@ -25842,6 +27188,33 @@ export namespace Prisma {
 
   export type VerificationRequestSumOrderByAggregateInput = {
     attempts?: SortOrder
+  }
+
+  export type VerificationTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    type?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VerificationTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    type?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VerificationTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    type?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type AdLocationCountOrderByAggregateInput = {
@@ -26676,9 +28049,9 @@ export namespace Prisma {
     deleteMany?: CampaignPricingSnapshotScalarWhereInput | CampaignPricingSnapshotScalarWhereInput[]
   }
 
-  export type PricingVersionCreateNestedOneWithoutFactorsInput = {
-    create?: XOR<PricingVersionCreateWithoutFactorsInput, PricingVersionUncheckedCreateWithoutFactorsInput>
-    connectOrCreate?: PricingVersionCreateOrConnectWithoutFactorsInput
+  export type PricingVersionCreateNestedOneWithoutFactorEntriesInput = {
+    create?: XOR<PricingVersionCreateWithoutFactorEntriesInput, PricingVersionUncheckedCreateWithoutFactorEntriesInput>
+    connectOrCreate?: PricingVersionCreateOrConnectWithoutFactorEntriesInput
     connect?: PricingVersionWhereUniqueInput
   }
 
@@ -26686,26 +28059,26 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type PricingVersionUpdateOneRequiredWithoutFactorsNestedInput = {
-    create?: XOR<PricingVersionCreateWithoutFactorsInput, PricingVersionUncheckedCreateWithoutFactorsInput>
-    connectOrCreate?: PricingVersionCreateOrConnectWithoutFactorsInput
-    upsert?: PricingVersionUpsertWithoutFactorsInput
+  export type PricingVersionUpdateOneRequiredWithoutFactorEntriesNestedInput = {
+    create?: XOR<PricingVersionCreateWithoutFactorEntriesInput, PricingVersionUncheckedCreateWithoutFactorEntriesInput>
+    connectOrCreate?: PricingVersionCreateOrConnectWithoutFactorEntriesInput
+    upsert?: PricingVersionUpsertWithoutFactorEntriesInput
     connect?: PricingVersionWhereUniqueInput
-    update?: XOR<XOR<PricingVersionUpdateToOneWithWhereWithoutFactorsInput, PricingVersionUpdateWithoutFactorsInput>, PricingVersionUncheckedUpdateWithoutFactorsInput>
+    update?: XOR<XOR<PricingVersionUpdateToOneWithWhereWithoutFactorEntriesInput, PricingVersionUpdateWithoutFactorEntriesInput>, PricingVersionUncheckedUpdateWithoutFactorEntriesInput>
   }
 
-  export type PricingVersionCreateNestedOneWithoutTimeSlotsInput = {
-    create?: XOR<PricingVersionCreateWithoutTimeSlotsInput, PricingVersionUncheckedCreateWithoutTimeSlotsInput>
-    connectOrCreate?: PricingVersionCreateOrConnectWithoutTimeSlotsInput
+  export type PricingVersionCreateNestedOneWithoutTimeSlotEntriesInput = {
+    create?: XOR<PricingVersionCreateWithoutTimeSlotEntriesInput, PricingVersionUncheckedCreateWithoutTimeSlotEntriesInput>
+    connectOrCreate?: PricingVersionCreateOrConnectWithoutTimeSlotEntriesInput
     connect?: PricingVersionWhereUniqueInput
   }
 
-  export type PricingVersionUpdateOneRequiredWithoutTimeSlotsNestedInput = {
-    create?: XOR<PricingVersionCreateWithoutTimeSlotsInput, PricingVersionUncheckedCreateWithoutTimeSlotsInput>
-    connectOrCreate?: PricingVersionCreateOrConnectWithoutTimeSlotsInput
-    upsert?: PricingVersionUpsertWithoutTimeSlotsInput
+  export type PricingVersionUpdateOneRequiredWithoutTimeSlotEntriesNestedInput = {
+    create?: XOR<PricingVersionCreateWithoutTimeSlotEntriesInput, PricingVersionUncheckedCreateWithoutTimeSlotEntriesInput>
+    connectOrCreate?: PricingVersionCreateOrConnectWithoutTimeSlotEntriesInput
+    upsert?: PricingVersionUpsertWithoutTimeSlotEntriesInput
     connect?: PricingVersionWhereUniqueInput
-    update?: XOR<XOR<PricingVersionUpdateToOneWithWhereWithoutTimeSlotsInput, PricingVersionUpdateWithoutTimeSlotsInput>, PricingVersionUncheckedUpdateWithoutTimeSlotsInput>
+    update?: XOR<XOR<PricingVersionUpdateToOneWithWhereWithoutTimeSlotEntriesInput, PricingVersionUpdateWithoutTimeSlotEntriesInput>, PricingVersionUncheckedUpdateWithoutTimeSlotEntriesInput>
   }
 
   export type CampaignCreateNestedOneWithoutPricingSnapshotInput = {
@@ -26998,6 +28371,29 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
@@ -27019,29 +28415,6 @@ export namespace Prisma {
     | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
   export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-  export type NestedJsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
     equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string[]
     mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
@@ -27515,30 +28888,40 @@ export namespace Prisma {
 
   export type PricingVersionCreateWithoutCampaignsInput = {
     id?: string
-    versionNumber: number
+    version: number
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
     pricingConfig: PricingConfigCreateNestedOneWithoutVersionsInput
-    factors?: PricingFactorCreateNestedManyWithoutPricingVersionInput
-    timeSlots?: TimeSlotCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigCreateNestedOneWithoutActiveVersionInput
     snapshots?: CampaignPricingSnapshotCreateNestedManyWithoutPricingVersionInput
   }
 
   export type PricingVersionUncheckedCreateWithoutCampaignsInput = {
     id?: string
-    versionNumber: number
+    version: number
     pricingConfigId: string
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
-    factors?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
-    timeSlots?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigUncheckedCreateNestedOneWithoutActiveVersionInput
     snapshots?: CampaignPricingSnapshotUncheckedCreateNestedManyWithoutPricingVersionInput
   }
@@ -27668,30 +29051,40 @@ export namespace Prisma {
 
   export type PricingVersionUpdateWithoutCampaignsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pricingConfig?: PricingConfigUpdateOneRequiredWithoutVersionsNestedInput
-    factors?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
-    timeSlots?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUpdateOneWithoutActiveVersionNestedInput
     snapshots?: CampaignPricingSnapshotUpdateManyWithoutPricingVersionNestedInput
   }
 
   export type PricingVersionUncheckedUpdateWithoutCampaignsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     pricingConfigId?: StringFieldUpdateOperationsInput | string
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    factors?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
-    timeSlots?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUncheckedUpdateOneWithoutActiveVersionNestedInput
     snapshots?: CampaignPricingSnapshotUncheckedUpdateManyWithoutPricingVersionNestedInput
   }
@@ -28041,30 +29434,40 @@ export namespace Prisma {
 
   export type PricingVersionCreateWithoutActiveConfigInput = {
     id?: string
-    versionNumber: number
+    version: number
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
     pricingConfig: PricingConfigCreateNestedOneWithoutVersionsInput
-    factors?: PricingFactorCreateNestedManyWithoutPricingVersionInput
-    timeSlots?: TimeSlotCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotCreateNestedManyWithoutPricingVersionInput
     campaigns?: CampaignCreateNestedManyWithoutPricingVersionInput
     snapshots?: CampaignPricingSnapshotCreateNestedManyWithoutPricingVersionInput
   }
 
   export type PricingVersionUncheckedCreateWithoutActiveConfigInput = {
     id?: string
-    versionNumber: number
+    version: number
     pricingConfigId: string
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
-    factors?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
-    timeSlots?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutPricingVersionInput
     snapshots?: CampaignPricingSnapshotUncheckedCreateNestedManyWithoutPricingVersionInput
   }
@@ -28076,14 +29479,19 @@ export namespace Prisma {
 
   export type PricingVersionCreateWithoutPricingConfigInput = {
     id?: string
-    versionNumber: number
+    version: number
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
-    factors?: PricingFactorCreateNestedManyWithoutPricingVersionInput
-    timeSlots?: TimeSlotCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigCreateNestedOneWithoutActiveVersionInput
     campaigns?: CampaignCreateNestedManyWithoutPricingVersionInput
     snapshots?: CampaignPricingSnapshotCreateNestedManyWithoutPricingVersionInput
@@ -28091,14 +29499,19 @@ export namespace Prisma {
 
   export type PricingVersionUncheckedCreateWithoutPricingConfigInput = {
     id?: string
-    versionNumber: number
+    version: number
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
-    factors?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
-    timeSlots?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigUncheckedCreateNestedOneWithoutActiveVersionInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutPricingVersionInput
     snapshots?: CampaignPricingSnapshotUncheckedCreateNestedManyWithoutPricingVersionInput
@@ -28127,30 +29540,40 @@ export namespace Prisma {
 
   export type PricingVersionUpdateWithoutActiveConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pricingConfig?: PricingConfigUpdateOneRequiredWithoutVersionsNestedInput
-    factors?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
-    timeSlots?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
     campaigns?: CampaignUpdateManyWithoutPricingVersionNestedInput
     snapshots?: CampaignPricingSnapshotUpdateManyWithoutPricingVersionNestedInput
   }
 
   export type PricingVersionUncheckedUpdateWithoutActiveConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     pricingConfigId?: StringFieldUpdateOperationsInput | string
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    factors?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
-    timeSlots?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutPricingVersionNestedInput
     snapshots?: CampaignPricingSnapshotUncheckedUpdateManyWithoutPricingVersionNestedInput
   }
@@ -28176,11 +29599,16 @@ export namespace Prisma {
     OR?: PricingVersionScalarWhereInput[]
     NOT?: PricingVersionScalarWhereInput | PricingVersionScalarWhereInput[]
     id?: StringFilter<"PricingVersion"> | string
-    versionNumber?: IntFilter<"PricingVersion"> | number
+    version?: IntFilter<"PricingVersion"> | number
     pricingConfigId?: StringFilter<"PricingVersion"> | string
     basePrice?: DecimalFilter<"PricingVersion"> | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFilter<"PricingVersion"> | Decimal | DecimalJsLike | number | string
     status?: StringFilter<"PricingVersion"> | string
+    screenSlabs?: JsonFilter<"PricingVersion">
+    timeSlots?: JsonFilter<"PricingVersion">
+    formatMultipliers?: JsonFilter<"PricingVersion">
+    durationSlabs?: JsonFilter<"PricingVersion">
+    factorPriorities?: JsonFilter<"PricingVersion">
     createdAt?: DateTimeFilter<"PricingVersion"> | Date | string
     publishedAt?: DateTimeNullableFilter<"PricingVersion"> | Date | string | null
   }
@@ -28536,153 +29964,193 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"CampaignPricingSnapshot"> | Date | string
   }
 
-  export type PricingVersionCreateWithoutFactorsInput = {
+  export type PricingVersionCreateWithoutFactorEntriesInput = {
     id?: string
-    versionNumber: number
+    version: number
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
     pricingConfig: PricingConfigCreateNestedOneWithoutVersionsInput
-    timeSlots?: TimeSlotCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigCreateNestedOneWithoutActiveVersionInput
     campaigns?: CampaignCreateNestedManyWithoutPricingVersionInput
     snapshots?: CampaignPricingSnapshotCreateNestedManyWithoutPricingVersionInput
   }
 
-  export type PricingVersionUncheckedCreateWithoutFactorsInput = {
+  export type PricingVersionUncheckedCreateWithoutFactorEntriesInput = {
     id?: string
-    versionNumber: number
+    version: number
     pricingConfigId: string
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
-    timeSlots?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigUncheckedCreateNestedOneWithoutActiveVersionInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutPricingVersionInput
     snapshots?: CampaignPricingSnapshotUncheckedCreateNestedManyWithoutPricingVersionInput
   }
 
-  export type PricingVersionCreateOrConnectWithoutFactorsInput = {
+  export type PricingVersionCreateOrConnectWithoutFactorEntriesInput = {
     where: PricingVersionWhereUniqueInput
-    create: XOR<PricingVersionCreateWithoutFactorsInput, PricingVersionUncheckedCreateWithoutFactorsInput>
+    create: XOR<PricingVersionCreateWithoutFactorEntriesInput, PricingVersionUncheckedCreateWithoutFactorEntriesInput>
   }
 
-  export type PricingVersionUpsertWithoutFactorsInput = {
-    update: XOR<PricingVersionUpdateWithoutFactorsInput, PricingVersionUncheckedUpdateWithoutFactorsInput>
-    create: XOR<PricingVersionCreateWithoutFactorsInput, PricingVersionUncheckedCreateWithoutFactorsInput>
+  export type PricingVersionUpsertWithoutFactorEntriesInput = {
+    update: XOR<PricingVersionUpdateWithoutFactorEntriesInput, PricingVersionUncheckedUpdateWithoutFactorEntriesInput>
+    create: XOR<PricingVersionCreateWithoutFactorEntriesInput, PricingVersionUncheckedCreateWithoutFactorEntriesInput>
     where?: PricingVersionWhereInput
   }
 
-  export type PricingVersionUpdateToOneWithWhereWithoutFactorsInput = {
+  export type PricingVersionUpdateToOneWithWhereWithoutFactorEntriesInput = {
     where?: PricingVersionWhereInput
-    data: XOR<PricingVersionUpdateWithoutFactorsInput, PricingVersionUncheckedUpdateWithoutFactorsInput>
+    data: XOR<PricingVersionUpdateWithoutFactorEntriesInput, PricingVersionUncheckedUpdateWithoutFactorEntriesInput>
   }
 
-  export type PricingVersionUpdateWithoutFactorsInput = {
+  export type PricingVersionUpdateWithoutFactorEntriesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pricingConfig?: PricingConfigUpdateOneRequiredWithoutVersionsNestedInput
-    timeSlots?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUpdateOneWithoutActiveVersionNestedInput
     campaigns?: CampaignUpdateManyWithoutPricingVersionNestedInput
     snapshots?: CampaignPricingSnapshotUpdateManyWithoutPricingVersionNestedInput
   }
 
-  export type PricingVersionUncheckedUpdateWithoutFactorsInput = {
+  export type PricingVersionUncheckedUpdateWithoutFactorEntriesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     pricingConfigId?: StringFieldUpdateOperationsInput | string
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    timeSlots?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUncheckedUpdateOneWithoutActiveVersionNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutPricingVersionNestedInput
     snapshots?: CampaignPricingSnapshotUncheckedUpdateManyWithoutPricingVersionNestedInput
   }
 
-  export type PricingVersionCreateWithoutTimeSlotsInput = {
+  export type PricingVersionCreateWithoutTimeSlotEntriesInput = {
     id?: string
-    versionNumber: number
+    version: number
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
     pricingConfig: PricingConfigCreateNestedOneWithoutVersionsInput
-    factors?: PricingFactorCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigCreateNestedOneWithoutActiveVersionInput
     campaigns?: CampaignCreateNestedManyWithoutPricingVersionInput
     snapshots?: CampaignPricingSnapshotCreateNestedManyWithoutPricingVersionInput
   }
 
-  export type PricingVersionUncheckedCreateWithoutTimeSlotsInput = {
+  export type PricingVersionUncheckedCreateWithoutTimeSlotEntriesInput = {
     id?: string
-    versionNumber: number
+    version: number
     pricingConfigId: string
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
-    factors?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigUncheckedCreateNestedOneWithoutActiveVersionInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutPricingVersionInput
     snapshots?: CampaignPricingSnapshotUncheckedCreateNestedManyWithoutPricingVersionInput
   }
 
-  export type PricingVersionCreateOrConnectWithoutTimeSlotsInput = {
+  export type PricingVersionCreateOrConnectWithoutTimeSlotEntriesInput = {
     where: PricingVersionWhereUniqueInput
-    create: XOR<PricingVersionCreateWithoutTimeSlotsInput, PricingVersionUncheckedCreateWithoutTimeSlotsInput>
+    create: XOR<PricingVersionCreateWithoutTimeSlotEntriesInput, PricingVersionUncheckedCreateWithoutTimeSlotEntriesInput>
   }
 
-  export type PricingVersionUpsertWithoutTimeSlotsInput = {
-    update: XOR<PricingVersionUpdateWithoutTimeSlotsInput, PricingVersionUncheckedUpdateWithoutTimeSlotsInput>
-    create: XOR<PricingVersionCreateWithoutTimeSlotsInput, PricingVersionUncheckedCreateWithoutTimeSlotsInput>
+  export type PricingVersionUpsertWithoutTimeSlotEntriesInput = {
+    update: XOR<PricingVersionUpdateWithoutTimeSlotEntriesInput, PricingVersionUncheckedUpdateWithoutTimeSlotEntriesInput>
+    create: XOR<PricingVersionCreateWithoutTimeSlotEntriesInput, PricingVersionUncheckedCreateWithoutTimeSlotEntriesInput>
     where?: PricingVersionWhereInput
   }
 
-  export type PricingVersionUpdateToOneWithWhereWithoutTimeSlotsInput = {
+  export type PricingVersionUpdateToOneWithWhereWithoutTimeSlotEntriesInput = {
     where?: PricingVersionWhereInput
-    data: XOR<PricingVersionUpdateWithoutTimeSlotsInput, PricingVersionUncheckedUpdateWithoutTimeSlotsInput>
+    data: XOR<PricingVersionUpdateWithoutTimeSlotEntriesInput, PricingVersionUncheckedUpdateWithoutTimeSlotEntriesInput>
   }
 
-  export type PricingVersionUpdateWithoutTimeSlotsInput = {
+  export type PricingVersionUpdateWithoutTimeSlotEntriesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pricingConfig?: PricingConfigUpdateOneRequiredWithoutVersionsNestedInput
-    factors?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUpdateOneWithoutActiveVersionNestedInput
     campaigns?: CampaignUpdateManyWithoutPricingVersionNestedInput
     snapshots?: CampaignPricingSnapshotUpdateManyWithoutPricingVersionNestedInput
   }
 
-  export type PricingVersionUncheckedUpdateWithoutTimeSlotsInput = {
+  export type PricingVersionUncheckedUpdateWithoutTimeSlotEntriesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     pricingConfigId?: StringFieldUpdateOperationsInput | string
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    factors?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUncheckedUpdateOneWithoutActiveVersionNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutPricingVersionNestedInput
     snapshots?: CampaignPricingSnapshotUncheckedUpdateManyWithoutPricingVersionNestedInput
@@ -28727,30 +30195,40 @@ export namespace Prisma {
 
   export type PricingVersionCreateWithoutSnapshotsInput = {
     id?: string
-    versionNumber: number
+    version: number
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
     pricingConfig: PricingConfigCreateNestedOneWithoutVersionsInput
-    factors?: PricingFactorCreateNestedManyWithoutPricingVersionInput
-    timeSlots?: TimeSlotCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigCreateNestedOneWithoutActiveVersionInput
     campaigns?: CampaignCreateNestedManyWithoutPricingVersionInput
   }
 
   export type PricingVersionUncheckedCreateWithoutSnapshotsInput = {
     id?: string
-    versionNumber: number
+    version: number
     pricingConfigId: string
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
-    factors?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
-    timeSlots?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
+    factorEntries?: PricingFactorUncheckedCreateNestedManyWithoutPricingVersionInput
+    timeSlotEntries?: TimeSlotUncheckedCreateNestedManyWithoutPricingVersionInput
     activeConfig?: PricingConfigUncheckedCreateNestedOneWithoutActiveVersionInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutPricingVersionInput
   }
@@ -28816,30 +30294,40 @@ export namespace Prisma {
 
   export type PricingVersionUpdateWithoutSnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pricingConfig?: PricingConfigUpdateOneRequiredWithoutVersionsNestedInput
-    factors?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
-    timeSlots?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUpdateOneWithoutActiveVersionNestedInput
     campaigns?: CampaignUpdateManyWithoutPricingVersionNestedInput
   }
 
   export type PricingVersionUncheckedUpdateWithoutSnapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     pricingConfigId?: StringFieldUpdateOperationsInput | string
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    factors?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
-    timeSlots?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUncheckedUpdateOneWithoutActiveVersionNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutPricingVersionNestedInput
   }
@@ -29456,24 +30944,34 @@ export namespace Prisma {
 
   export type PricingVersionCreateManyPricingConfigInput = {
     id?: string
-    versionNumber: number
+    version: number
     basePrice: Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: Decimal | DecimalJsLike | number | string
     status?: string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     publishedAt?: Date | string | null
   }
 
   export type PricingVersionUpdateWithoutPricingConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    factors?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
-    timeSlots?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUpdateOneWithoutActiveVersionNestedInput
     campaigns?: CampaignUpdateManyWithoutPricingVersionNestedInput
     snapshots?: CampaignPricingSnapshotUpdateManyWithoutPricingVersionNestedInput
@@ -29481,14 +30979,19 @@ export namespace Prisma {
 
   export type PricingVersionUncheckedUpdateWithoutPricingConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    factors?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
-    timeSlots?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
+    factorEntries?: PricingFactorUncheckedUpdateManyWithoutPricingVersionNestedInput
+    timeSlotEntries?: TimeSlotUncheckedUpdateManyWithoutPricingVersionNestedInput
     activeConfig?: PricingConfigUncheckedUpdateOneWithoutActiveVersionNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutPricingVersionNestedInput
     snapshots?: CampaignPricingSnapshotUncheckedUpdateManyWithoutPricingVersionNestedInput
@@ -29496,10 +30999,15 @@ export namespace Prisma {
 
   export type PricingVersionUncheckedUpdateManyWithoutPricingConfigInput = {
     id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tokenUsdPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: StringFieldUpdateOperationsInput | string
+    screenSlabs?: JsonNullValueInput | InputJsonValue
+    timeSlots?: JsonNullValueInput | InputJsonValue
+    formatMultipliers?: JsonNullValueInput | InputJsonValue
+    durationSlabs?: JsonNullValueInput | InputJsonValue
+    factorPriorities?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }

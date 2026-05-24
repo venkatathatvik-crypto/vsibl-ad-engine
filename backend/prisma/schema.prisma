@@ -265,6 +265,18 @@ model VerificationRequest {
   @@index([email])
 }
 
+model VerificationToken {
+  id        String   @id @default(uuid())
+  email     String
+  token     String   @unique
+  type      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+
 model AdLocation {
   id             String   @id @default(uuid())
   name           String   @unique

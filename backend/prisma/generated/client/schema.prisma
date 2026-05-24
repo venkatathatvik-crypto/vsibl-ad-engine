@@ -132,15 +132,22 @@ model PricingConfig {
 
 model PricingVersion {
   id              String        @id @default(uuid())
-  versionNumber   Int
+  version         Int           @unique @map("versionNumber")
   pricingConfigId String
   pricingConfig   PricingConfig @relation("ConfigVersions", fields: [pricingConfigId], references: [id])
   basePrice       Decimal       @db.Decimal(10, 4)
   tokenUsdPrice   Decimal       @default(0.04) @db.Decimal(10, 4)
   status          String        @default("DRAFT") // DRAFT, PUBLISHED
 
-  factors   PricingFactor[]
-  timeSlots TimeSlot[]
+  // JSON Blobs for engine config (Deterministic snapshot)
+  screenSlabs       Json @default("[]")
+  timeSlots         Json @default("[]") // Renamed from timeSlotsRules to match engine
+  formatMultipliers Json @default("[]")
+  durationSlabs     Json @default("[]")
+  factorPriorities  Json @default("[]")
+
+  factorEntries   PricingFactor[] // Renamed from factors
+  timeSlotEntries TimeSlot[] // Renamed from timeSlots
 
   // Relations
   activeConfig PricingConfig?            @relation("ActiveVersion")
@@ -253,6 +260,17 @@ model VerificationRequest {
   expiresAt  DateTime
   verifiedAt DateTime?
   createdAt  DateTime  @default(now())
+
+  @@index([email])
+}
+
+model VerificationToken {
+  id        String   @id @default(uuid())
+  email     String
+  token     String   @unique
+  type      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 
   @@index([email])
 }

@@ -195,11 +195,16 @@ exports.Prisma.PricingConfigScalarFieldEnum = {
 
 exports.Prisma.PricingVersionScalarFieldEnum = {
   id: 'id',
-  versionNumber: 'versionNumber',
+  version: 'version',
   pricingConfigId: 'pricingConfigId',
   basePrice: 'basePrice',
   tokenUsdPrice: 'tokenUsdPrice',
   status: 'status',
+  screenSlabs: 'screenSlabs',
+  timeSlots: 'timeSlots',
+  formatMultipliers: 'formatMultipliers',
+  durationSlabs: 'durationSlabs',
+  factorPriorities: 'factorPriorities',
   createdAt: 'createdAt',
   publishedAt: 'publishedAt'
 };
@@ -289,6 +294,15 @@ exports.Prisma.VerificationRequestScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.VerificationTokenScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  type: 'type',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.AdLocationScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -304,12 +318,12 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -350,6 +364,7 @@ exports.Prisma.ModelName = {
   PlaybackSchedule: 'PlaybackSchedule',
   RefreshToken: 'RefreshToken',
   VerificationRequest: 'VerificationRequest',
+  VerificationToken: 'VerificationToken',
   AdLocation: 'AdLocation'
 };
 

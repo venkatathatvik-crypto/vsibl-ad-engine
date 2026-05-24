@@ -35,5 +35,3 @@ export const sendMail = async (options: { to: string; subject: string; html: str
 export const generateOTP = () => {
     return Math.floor(100000 + Math.random() * 900000).toString();
 };
-鼓
-鼓
